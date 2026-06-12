@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Doces Flor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brown-dark:  #2B1206;
+    --brown-mid:   #5C2A0E;
+    --brown-warm:  #8B4513;
+    --amber:       #E8943A;
+    --amber-light: #F5B563;
+    --cream:       #FDF8F0;
+    --cream-dark:  #F0E6D3;
+    --green:       #4A7C59;
+    --red:         #e53935;
+    --white:       #FFFFFF;
+    --shadow:      rgba(43,18,6,0.13);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+
+  #loginScreen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--brown-dark); }
+  .login-box { background:var(--white); border-radius:24px; padding:2.5rem 2rem; width:90%; max-width:360px; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.4); }
+  .login-box h1 { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--brown-dark); margin-bottom:0.2rem; }
+  .login-box h1 span { color:var(--amber); }
+  .login-box p { font-size:0.82rem; color:var(--brown-warm); margin-bottom:1.75rem; }
+  .login-field { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1rem; text-align:left; }
+  .login-field label { font-size:0.78rem; font-weight:600; color:var(--brown-warm); letter-spacing:0.04em; }
+  .login-field input { padding:0.65rem 0.9rem; border:2px solid var(--cream-dark); border-radius:10px; font-size:0.9rem; font-family:'DM Sans',sans-serif; color:var(--brown-dark); transition:border-color 0.2s; }
+  .login-field input:focus { outline:none; border-color:var(--amber); }
+  .btn-login { width:100%; padding:0.75rem; background:var(--brown-dark); color:var(--amber-light); border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.95rem; font-weight:600; cursor:pointer; margin-top:0.5rem; transition:background 0.2s; }
+  .btn-login:hover { background:var(--brown-mid); }
+  .login-erro { color:var(--red); font-size:0.8rem; margin-top:0.75rem; display:none; }
+
+  #adminScreen { display:none; }
+  .admin-header { background:var(--brown-dark); padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .admin-header-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:var(--cream); }
+  .admin-header-title span { color:var(--amber); }
+  .admin-header-actions { display:flex; gap:0.6rem; align-items:center; }
+  .btn-sair { background:none; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.6); font-size:0.78rem; font-family:'DM Sans',sans-serif; padding:0.35rem 0.9rem; border-radius:50px; cursor:pointer; transition:all 0.2s; }
+  .btn-sair:hover { border-color:var(--red); color:var(--red); }
+  .admin-body { max-width:960px; margin:0 auto; padding:2rem 1.25rem 5rem; }
+
+  .admin-tabs { display:flex; gap:6px; background:var(--cream-dark); border-radius:16px; padding:5px; margin-bottom:2rem; flex-wrap:wrap; }
+  .admin-tab { flex:1; min-width:80px; padding:0.6rem 1rem; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:500; cursor:pointer; background:transparent; color:var(--brown-warm); transition:all 0.25s; white-space:nowrap; }
+  .admin-tab.active { background:var(--brown-dark); color:var(--amber-light); box-shadow:0 3px 10px var(--shadow); }
+
+  .inner-tabs { display:flex; gap:5px; background:rgba(0,0,0,0.06); border-radius:12px; padding:4px; margin-bottom:1.25rem; flex-wrap:wrap; }
+  .inner-tab { flex:1; min-width:70px; padding:0.5rem 0.75rem; border:none; border-radius:9px; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; cursor:pointer; background:transparent; color:var(--brown-warm); transition:all 0.2s; white-space:nowrap; text-align:center; }
+  .inner-tab.active { background:var(--brown-dark); color:var(--amber-light); box-shadow:0 2px 8px var(--shadow); }
+
+  .admin-section { display:none; }
+  .admin-section.visible { display:block; }
+
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:var(--brown-dark); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--cream-dark); }
+
+  .sabores-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem; margin-bottom:1.5rem; }
+  .sabor-card { background:var(--white); border-radius:16px; box-shadow:0 4px 18px var(--shadow); overflow:hidden; }
+  .sabor-card-header { display:flex; align-items:center; justify-content:space-between; padding:0.85rem 1rem; background:var(--cream); border-bottom:1px solid var(--cream-dark); }
+  .sabor-card-nome { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700; color:var(--brown-dark); }
+  .sabor-card-acoes { display:flex; gap:0.4rem; }
+  .btn-icon { width:30px; height:30px; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition:all 0.15s; }
+  .btn-icon-edit { background:var(--cream-dark); color:var(--brown-warm); }
+  .btn-icon-edit:hover { background:var(--amber); color:white; }
+  .btn-icon-del { background:#fef2f2; color:#fca5a5; }
+  .btn-icon-del:hover { background:var(--red); color:white; }
+
+  .sabor-fotos { padding:0.75rem 1rem; display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; min-height:56px; }
+  .foto-chip { display:inline-flex; align-items:center; gap:0.35rem; background:var(--cream); border:1px solid var(--cream-dark); border-radius:8px; padding:0.25rem 0.6rem; font-size:0.75rem; color:var(--brown-warm); max-width:160px; }
+  .foto-chip span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .foto-chip-del { background:none; border:none; color:#ccc; cursor:pointer; font-size:0.9rem; line-height:1; padding:0; flex-shrink:0; transition:color 0.15s; }
+  .foto-chip-del:hover { color:var(--red); }
+  .btn-add-foto { display:inline-flex; align-items:center; gap:0.3rem; background:none; border:1.5px dashed var(--amber); color:var(--amber); border-radius:8px; padding:0.25rem 0.7rem; font-size:0.75rem; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; transition:all 0.15s; }
+  .btn-add-foto:hover { background:var(--amber); color:white; }
+
+  .item-simples-lista { display:flex; flex-direction:column; gap:0.5rem; }
+  .item-simples { display:flex; align-items:center; justify-content:space-between; background:var(--cream); border:1px solid var(--cream-dark); border-radius:10px; padding:0.6rem 0.9rem; font-size:0.88rem; color:var(--brown-dark); }
+  .item-simples-acoes { display:flex; gap:0.35rem; }
+
+  .btn-novo { display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1.3rem; background:var(--brown-dark); color:var(--amber-light); border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; transition:background 0.2s; margin-bottom:1rem; }
+  .btn-novo:hover { background:var(--brown-mid); }
+
+  .precos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+  .preco-card { background:var(--white); border-radius:16px; padding:1.25rem; box-shadow:0 4px 18px var(--shadow); }
+  .preco-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700; color:var(--brown-dark); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--cream-dark); }
+  .preco-field { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem; gap:0.75rem; }
+  .preco-field label { font-size:0.82rem; color:var(--brown-warm); font-weight:500; white-space:nowrap; }
+  .preco-field input { width:100px; padding:0.4rem 0.6rem; border:2px solid var(--cream-dark); border-radius:8px; font-size:0.88rem; font-family:'DM Sans',sans-serif; color:var(--brown-dark); text-align:right; transition:border-color 0.2s; }
+  .preco-field input:focus { outline:none; border-color:var(--amber); }
+
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; display:none; align-items:center; justify-content:center; }
+  .modal-overlay.active { display:flex; }
+  .modal-box { background:var(--white); border-radius:20px; padding:1.75rem; width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+  .modal-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--brown-dark); margin-bottom:1.25rem; }
+  .form-field { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1rem; }
+  .form-field label { font-size:0.78rem; font-weight:600; color:var(--brown-warm); letter-spacing:0.03em; }
+  .form-field input { padding:0.6rem 0.8rem; border:2px solid var(--cream-dark); border-radius:10px; font-size:0.9rem; font-family:'DM Sans',sans-serif; color:var(--brown-dark); transition:border-color 0.2s; }
+  .form-field input:focus { outline:none; border-color:var(--amber); }
+  .form-field small { font-size:0.72rem; color:var(--brown-warm); font-style:italic; }
+  .modal-actions { display:flex; gap:0.6rem; margin-top:1.25rem; }
+  .btn-confirmar { flex:1; padding:0.65rem; background:var(--brown-dark); color:var(--amber-light); border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.2s; }
+  .btn-confirmar:hover { background:var(--brown-mid); }
+  .btn-cancelar { flex:1; padding:0.65rem; background:none; border:2px solid var(--cream-dark); color:var(--brown-warm); border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer; transition:all 0.2s; }
+  .btn-cancelar:hover { border-color:var(--red); color:var(--red); }
+
+  .salvar-bar { position:fixed; bottom:0; left:0; right:0; background:var(--white); border-top:1px solid var(--cream-dark); padding:0.9rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; z-index:200; box-shadow:0 -4px 20px var(--shadow); transform:translateY(100%); transition:transform 0.3s ease; }
+  .salvar-bar.visivel { transform:translateY(0); }
+  .salvar-bar-msg { font-size:0.85rem; color:var(--brown-warm); }
+  .salvar-bar-msg strong { color:var(--brown-dark); }
+  .btn-salvar { display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.5rem; background:var(--green); color:white; border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.2s,transform 0.15s; white-space:nowrap; }
+  .btn-salvar:hover { background:#3a6347; transform:scale(1.03); }
+  .btn-salvar:disabled { background:#aaa; cursor:not-allowed; transform:none; }
+
+  .config-card { background:var(--white); border-radius:16px; padding:1.5rem; box-shadow:0 4px 18px var(--shadow); max-width:560px; }
+  .config-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--brown-dark); margin-bottom:0.25rem; }
+  .config-card p { font-size:0.82rem; color:var(--brown-warm); margin-bottom:1.25rem; line-height:1.5; }
+  .config-status { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.8rem; font-weight:600; padding:0.3rem 0.8rem; border-radius:50px; margin-bottom:1rem; }
+  .config-status.ok  { background:#dcfce7; color:var(--green); }
+  .config-status.err { background:#fef2f2; color:var(--red); }
+  .info-box { background:var(--cream); border:1px solid var(--cream-dark); border-radius:12px; padding:1rem 1.1rem; margin-top:1.5rem; }
+  .info-box h4 { font-size:0.82rem; font-weight:700; color:var(--brown-dark); margin-bottom:0.5rem; letter-spacing:0.03em; }
+  .info-box ol { padding-left:1.1rem; font-size:0.8rem; color:var(--brown-warm); line-height:1.8; }
+  .info-box code { background:var(--cream-dark); padding:0.1rem 0.4rem; border-radius:4px; font-size:0.78rem; color:var(--brown-dark); }
+
+  .toast { position:fixed; bottom:5rem; left:50%; transform:translateX(-50%) translateY(20px); background:var(--brown-dark); color:var(--amber-light); padding:0.65rem 1.4rem; border-radius:50px; font-size:0.88rem; font-weight:500; z-index:9999; opacity:0; transition:opacity 0.3s,transform 0.3s; pointer-events:none; white-space:nowrap; box-shadow:0 6px 20px rgba(0,0,0,0.3); }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .toast.ok  { background:var(--green); color:white; }
+  .toast.err { background:var(--red); color:white; }
+
+  @media (max-width:500px) {
+    .sabores-grid { grid-template-columns:1fr; }
+    .precos-grid  { grid-template-columns:1fr; }
+    .admin-tab { font-size:0.75rem; padding:0.5rem 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>Doces <span>Flor</span></h1>
+    <p>Painel de administração</p>
+    <div class="login-field">
+      <label>SENHA</label>
+      <input type="password" id="inputSenha" placeholder="••••••••" onkeydown="if(event.key==='Enter') fazerLogin()">
+    </div>
+    <button class="btn-login" onclick="fazerLogin()">Entrar</button>
+    <p class="login-erro" id="loginErro">Senha incorreta.</p>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminScreen">
+  <div class="admin-header">
+    <div class="admin-header-title">Doces <span>Flor</span> · Admin</div>
+    <div class="admin-header-actions">
+      <a href="https://docesflor.github.io/cardapio/" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-decoration:none;">Cardápio ↗</a>
+      <a href="https://docesflor.github.io/pedidos/" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-decoration:none;">Pedidos ↗</a>
+      <button class="btn-sair" onclick="sair()">Sair</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+    <div class="admin-tabs" id="mainTabs">
+      <button class="admin-tab active" data-tab="cardapio-trad">Tradicionais</button>
+      <button class="admin-tab" data-tab="cardapio-frutas">Frutas</button>
+      <button class="admin-tab" data-tab="cardapio-gourmet">Gourmet</button>
+      <button class="admin-tab" data-tab="cardapio-precos">Preços Cardápio</button>
+      <button class="admin-tab" data-tab="pedidos-sabores">Sabores Pedido</button>
+      <button class="admin-tab" data-tab="pedidos-precos">Preços Pedido</button>
+      <button class="admin-tab" data-tab="pedidos-gastos">Gastos</button>
+      <button class="admin-tab" data-tab="config">Config</button>
+    </div>
+
+    <div class="admin-section visible" id="tab-cardapio-trad">
+      <div class="section-title">Tradicionais — Cardápio</div>
+      <button class="btn-novo" onclick="abrirModalNovo('cardapio','trads')">+ Novo sabor</button>
+      <div class="sabores-grid" id="grid-c-trads"></div>
+    </div>
+
+    <div class="admin-section" id="tab-cardapio-frutas">
+      <div class="section-title">Frutas — Cardápio</div>
+      <button class="btn-novo" onclick="abrirModalNovo('cardapio','frutas')">+ Novo sabor</button>
+      <div class="sabores-grid" id="grid-c-frutas"></div>
+    </div>
+
+    <div class="admin-section" id="tab-cardapio-gourmet">
+      <div class="section-title">Gourmet — Cardápio</div>
+      <button class="btn-novo" onclick="abrirModalNovo('cardapio','gourmets')">+ Novo sabor</button>
+      <div class="sabores-grid" id="grid-c-gourmets"></div>
+    </div>
+
+    <div class="admin-section" id="tab-cardapio-precos">
+      <div class="section-title">Preços — Cardápio</div>
+      <div class="precos-grid" id="grid-precos-cardapio"></div>
+    </div>
+
+    <div class="admin-section" id="tab-pedidos-sabores">
+      <div class="section-title">Sabores — Sistema de Pedidos</div>
+      <div class="inner-tabs" id="innerSaboresTabs">
+        <button class="inner-tab active" onclick="trocarAbaSabores('trads',this)">Tradicionais</button>
+        <button class="inner-tab" onclick="trocarAbaSabores('gourmets',this)">Gourmet</button>
+        <button class="inner-tab" onclick="trocarAbaSabores('frutas',this)">Frutas</button>
+      </div>
+      <div id="panel-p-trads">
+        <button class="btn-novo" onclick="abrirModalNovo('pedidos-sabores','trads')">+ Novo tradicional</button>
+        <div class="item-simples-lista" id="grid-p-trads"></div>
+      </div>
+      <div id="panel-p-gourmets" style="display:none;">
+        <button class="btn-novo" onclick="abrirModalNovo('pedidos-sabores','gourmets')">+ Novo gourmet</button>
+        <div class="item-simples-lista" id="grid-p-gourmets"></div>
+      </div>
+      <div id="panel-p-frutas" style="display:none;">
+        <button class="btn-novo" onclick="abrirModalNovo('pedidos-sabores','frutas')">+ Nova fruta</button>
+        <div class="item-simples-lista" id="grid-p-frutas"></div>
+      </div>
+    </div>
+
+    <div class="admin-section" id="tab-pedidos-precos">
+      <div class="section-title">Preços — Sistema de Pedidos</div>
+      <div class="precos-grid" id="grid-precos-pedidos"></div>
+    </div>
+
+    <div class="admin-section" id="tab-pedidos-gastos">
+      <div class="section-title">Itens de Gastos</div>
+      <div class="inner-tabs" id="innerGastosTabs">
+        <button class="inner-tab active" onclick="trocarAbaGastos('Ingredientes',this)">🧴 Ingredientes</button>
+        <button class="inner-tab" onclick="trocarAbaGastos('Embalagens',this)">📦 Embalagens</button>
+        <button class="inner-tab" onclick="trocarAbaGastos('Gás/Energia',this)">🔥 Gás/Energia</button>
+        <button class="inner-tab" onclick="trocarAbaGastos('Entrega',this)">🚗 Entrega</button>
+        <button class="inner-tab" onclick="trocarAbaGastos('Outros',this)">📋 Outros</button>
+      </div>
+      <div>
+        <button class="btn-novo" id="btnNovoGasto" onclick="abrirModalNovoGasto()">+ Novo item</button>
+        <div class="item-simples-lista" id="grid-gastos"></div>
+      </div>
+    </div>
+
+    <div class="admin-section" id="tab-config">
+      <div class="config-card">
+        <h3>Conexão com GitHub</h3>
+        <p>Salva os dados diretamente no repositório <strong>docesflor/admin</strong>. Configure o token uma única vez.</p>
+        <div id="configStatus"></div>
+        <div class="form-field">
+          <label>TOKEN DE ACESSO PESSOAL</label>
+          <input type="password" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          <small>Salvo apenas no seu navegador (localStorage). Nunca enviado a terceiros.</small>
+        </div>
+        <button class="btn-confirmar" style="width:100%;margin-top:0.5rem;" onclick="salvarConfig()">Salvar token</button>
+        <div class="info-box">
+          <h4>COMO CRIAR O TOKEN NO GITHUB</h4>
+          <ol>
+            <li>Acesse <code>github.com → Settings → Developer settings</code></li>
+            <li>Clique em <code>Personal access tokens → Tokens (classic)</code></li>
+            <li>Clique em <code>Generate new token (classic)</code></li>
+            <li>Dê um nome (ex: <code>doces-flor-admin</code>)</li>
+            <li>Marque a permissão <code>repo</code> (acesso completo)</li>
+            <li>Clique em <code>Generate token</code> e copie o valor</li>
+            <li>Cole o token acima e salve</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOME -->
+<div class="modal-overlay" id="modalNome">
+  <div class="modal-box">
+    <h3 id="modalNomeTitulo">Novo item</h3>
+    <div class="form-field">
+      <label id="modalNomeLabel">NOME</label>
+      <input type="text" id="modalNomeInput" placeholder="">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancelar" onclick="fecharModal('modalNome')">Cancelar</button>
+      <button class="btn-confirmar" onclick="confirmarModalNome()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FOTO -->
+<div class="modal-overlay" id="modalFoto">
+  <div class="modal-box">
+    <h3>Adicionar foto</h3>
+    <div class="form-field">
+      <label>NOME DO ARQUIVO</label>
+      <input type="text" id="modalFotoInput" placeholder="ex: amendoim-2.png">
+      <small>O arquivo deve estar na raiz do repositório docesflor/cardapio no GitHub.</small>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancelar" onclick="fecharModal('modalFoto')">Cancelar</button>
+      <button class="btn-confirmar" onclick="confirmarModalFoto()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SALVAR BAR -->
+<div class="salvar-bar" id="salvarBar">
+  <div class="salvar-bar-msg"><strong>Há alterações não salvas.</strong> Clique em salvar para publicar.</div>
+  <button class="btn-salvar" id="btnSalvar" onclick="salvarNoGitHub()">💾 Salvar e publicar</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SENHA = 'docesflor2025';
+
+let dadosCardapio = null;
+let dadosPedidos  = null;
+let alteradoCardapio = false;
+let alteradoPedidos  = false;
+let modalCtx = {};
+let gatosCategoriaAtiva = 'Ingredientes';
+
+function fazerLogin() {
+  if (document.getElementById('inputSenha').value === SENHA) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    iniciar();
+  } else {
+    document.getElementById('loginErro').style.display = 'block';
+  }
+}
+function sair() {
+  if ((alteradoCardapio || alteradoPedidos) && !confirm('Há alterações não salvas. Deseja sair mesmo assim?')) return;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminScreen').style.display = 'none';
+  document.getElementById('inputSenha').value = '';
+}
+
+async function iniciar() {
+  carregarConfigUI();
+  await Promise.all([carregarCardapio(), carregarPedidos()]);
+  renderTudo();
+}
+
+const REPO_RAW = 'https://raw.githubusercontent.com/docesflor/admin/main/';
+
+async function carregarCardapio() {
+  try {
+    const r = await fetch(REPO_RAW + 'dados-cardapio.json?t=' + Date.now());
+    dadosCardapio = await r.json();
+  } catch(e) {
+    showToast('Erro ao carregar dados-cardapio.json', 'err');
+    dadosCardapio = { trads:[], frutas:[], gourmets:[], precos:{} };
+  }
+}
+
+async function carregarPedidos() {
+  try {
+    const r = await fetch(REPO_RAW + 'dados-pedidos.json?t=' + Date.now());
+    dadosPedidos = await r.json();
+  } catch(e) {
+    showToast('Erro ao carregar dados-pedidos.json', 'err');
+    dadosPedidos = { sabores:{ trads:[], gourmets:[], frutas:[] }, precos:{}, gastos:{} };
+  }
+}
+
+function renderTudo() {
+  renderSaboresCardapio('trads',    'grid-c-trads');
+  renderSaboresCardapio('frutas',   'grid-c-frutas');
+  renderSaboresCardapio('gourmets', 'grid-c-gourmets');
+  renderPrecosCardapio();
+  renderSaboresPedidos('trads',    'grid-p-trads');
+  renderSaboresPedidos('gourmets', 'grid-p-gourmets');
+  renderSaboresPedidos('frutas',   'grid-p-frutas');
+  renderPrecosPedidos();
+  renderGastos(gatosCategoriaAtiva);
+}
+
+function renderSaboresCardapio(chave, gridId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  (dadosCardapio[chave] || []).forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'sabor-card';
+    card.innerHTML = `
+      <div class="sabor-card-header">
+        <div class="sabor-card-nome">${item.nome}</div>
+        <div class="sabor-card-acoes">
+          <button class="btn-icon btn-icon-edit" title="Renomear" onclick="abrirModalEditar('cardapio','${chave}',${idx})">✏️</button>
+          <button class="btn-icon btn-icon-del"  title="Remover"  onclick="removerCardapio('${chave}',${idx})">🗑</button>
+        </div>
+      </div>
+      <div class="sabor-fotos">
+        ${(item.fotos||[]).map((f,fi) => `
+          <div class="foto-chip">
+            <span title="${f}">${f}</span>
+            <button class="foto-chip-del" onclick="removerFoto('${chave}',${idx},${fi})">×</button>
+          </div>`).join('')}
+        <button class="btn-add-foto" onclick="abrirModalFoto('${chave}',${idx})">+ foto</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function removerCardapio(chave, idx) {
+  if (!confirm('Remover "' + dadosCardapio[chave][idx].nome + '"?')) return;
+  dadosCardapio[chave].splice(idx, 1);
+  marcarAlterado('cardapio');
+  renderSaboresCardapio(chave, gridIdCardapio(chave));
+}
+
+function gridIdCardapio(chave) {
+  return chave === 'trads' ? 'grid-c-trads' : chave === 'frutas' ? 'grid-c-frutas' : 'grid-c-gourmets';
+}
+
+function abrirModalFoto(chave, idx) {
+  modalCtx = { tipo:'foto', chave, idx };
+  document.getElementById('modalFotoInput').value = '';
+  document.getElementById('modalFoto').classList.add('active');
+  setTimeout(() => document.getElementById('modalFotoInput').focus(), 50);
+}
+function confirmarModalFoto() {
+  const nome = document.getElementById('modalFotoInput').value.trim();
+  if (!nome) return;
+  const { chave, idx } = modalCtx;
+  if (!dadosCardapio[chave][idx].fotos) dadosCardapio[chave][idx].fotos = [];
+  dadosCardapio[chave][idx].fotos.push(nome);
+  fecharModal('modalFoto');
+  marcarAlterado('cardapio');
+  renderSaboresCardapio(chave, gridIdCardapio(chave));
+}
+function removerFoto(chave, idx, fi) {
+  dadosCardapio[chave][idx].fotos.splice(fi, 1);
+  marcarAlterado('cardapio');
+  renderSaboresCardapio(chave, gridIdCardapio(chave));
+}
+
+function renderPrecosCardapio() {
+  const grid = document.getElementById('grid-precos-cardapio');
+  grid.innerHTML = '';
+  [
+    { chave:'trad',    label:'Tradicional' },
+    { chave:'frutas',  label:'Frutas' },
+    { chave:'gourmet', label:'Gourmet' },
+  ].forEach(cat => {
+    const tab = dadosCardapio.precos?.[cat.chave] || {};
+    const av  = dadosCardapio.precos?.avulsa?.[cat.chave] ?? '';
+    const card = document.createElement('div');
+    card.className = 'preco-card';
+    card.innerHTML = '<h3>' + cat.label + '</h3>' +
+      [25,50,75,100].map(q => `
+        <div class="preco-field">
+          <label>${q===100?'Cento (100 un)':'Caixa ' + q + ' un'}</label>
+          <input type="number" step="0.01" value="${tab[q]??''}" onchange="atualizarPrecoCardapio('${cat.chave}',${q},this.value)">
+        </div>`).join('') +
+      `<div class="preco-field">
+        <label>Preço avulso /un</label>
+        <input type="number" step="0.01" value="${av}" onchange="atualizarPrecoAvulsoCardapio('${cat.chave}',this.value)">
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+function atualizarPrecoCardapio(cat, qtd, val) {
+  if (!dadosCardapio.precos[cat]) dadosCardapio.precos[cat] = {};
+  dadosCardapio.precos[cat][qtd] = parseFloat(val);
+  marcarAlterado('cardapio');
+}
+function atualizarPrecoAvulsoCardapio(cat, val) {
+  if (!dadosCardapio.precos.avulsa) dadosCardapio.precos.avulsa = {};
+  dadosCardapio.precos.avulsa[cat] = parseFloat(val);
+  marcarAlterado('cardapio');
+}
+
+function renderSaboresPedidos(chave, gridId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  const lista = dadosPedidos?.sabores?.[chave] || [];
+  lista.forEach((nome, idx) => {
+    const div = document.createElement('div');
+    div.className = 'item-simples';
+    div.innerHTML = '<span>' + nome + '</span>' +
+      '<div class="item-simples-acoes">' +
+        '<button class="btn-icon btn-icon-edit" onclick="abrirModalEditar(\'pedidos-sabores\',\'' + chave + '\',' + idx + ')">✏️</button>' +
+        '<button class="btn-icon btn-icon-del"  onclick="removerPedidoSabor(\'' + chave + '\',' + idx + ')">🗑</button>' +
+      '</div>';
+    grid.appendChild(div);
+  });
+}
+function removerPedidoSabor(chave, idx) {
+  if (!confirm('Remover "' + dadosPedidos.sabores[chave][idx] + '"?')) return;
+  dadosPedidos.sabores[chave].splice(idx, 1);
+  marcarAlterado('pedidos');
+  renderSaboresPedidos(chave, 'grid-p-' + chave);
+}
+function trocarAbaSabores(chave, btn) {
+  document.querySelectorAll('#innerSaboresTabs .inner-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['trads','gourmets','frutas'].forEach(c => {
+    document.getElementById('panel-p-' + c).style.display = c === chave ? 'block' : 'none';
+  });
+}
+
+function renderPrecosPedidos() {
+  const grid = document.getElementById('grid-precos-pedidos');
+  grid.innerHTML = '';
+  [
+    { chave:'trad',    label:'Tradicional' },
+    { chave:'frutas',  label:'Frutas' },
+    { chave:'gourmet', label:'Gourmet' },
+  ].forEach(cat => {
+    const tab = dadosPedidos?.precos?.[cat.chave] || {};
+    const card = document.createElement('div');
+    card.className = 'preco-card';
+    card.innerHTML = '<h3>' + cat.label + '</h3>' +
+      [25,50,75,100].map(q => `
+        <div class="preco-field">
+          <label>${q===100?'Cento (100 un)':'Caixa ' + q + ' un'}</label>
+          <input type="number" step="0.01" value="${tab[q]??''}" onchange="atualizarPrecoPedidos('${cat.chave}',${q},this.value)">
+        </div>`).join('') +
+      `<div class="preco-field">
+        <label>Preço avulso /un</label>
+        <input type="number" step="0.01" value="${tab.avulso??''}" onchange="atualizarPrecoPedidos('${cat.chave}','avulso',this.value)">
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+function atualizarPrecoPedidos(cat, qtd, val) {
+  if (!dadosPedidos.precos[cat]) dadosPedidos.precos[cat] = {};
+  dadosPedidos.precos[cat][qtd] = parseFloat(val);
+  marcarAlterado('pedidos');
+}
+
+function renderGastos(categoria) {
+  const grid = document.getElementById('grid-gastos');
+  grid.innerHTML = '';
+  const lista = dadosPedidos?.gastos?.[categoria] || [];
+  lista.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'item-simples';
+    div.innerHTML = '<span>' + item + '</span>' +
+      '<div class="item-simples-acoes">' +
+        '<button class="btn-icon btn-icon-edit" onclick="abrirModalEditarGasto(\'' + categoria + '\',' + idx + ')">✏️</button>' +
+        '<button class="btn-icon btn-icon-del"  onclick="removerGasto(\'' + categoria + '\',' + idx + ')">🗑</button>' +
+      '</div>';
+    grid.appendChild(div);
+  });
+}
+function trocarAbaGastos(categoria, btn) {
+  gatosCategoriaAtiva = categoria;
+  document.querySelectorAll('#innerGastosTabs .inner-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGastos(categoria);
+}
+function removerGasto(categoria, idx) {
+  if (!confirm('Remover "' + dadosPedidos.gastos[categoria][idx] + '"?')) return;
+  dadosPedidos.gastos[categoria].splice(idx, 1);
+  marcarAlterado('pedidos');
+  renderGastos(categoria);
+}
+function abrirModalEditarGasto(categoria, idx) {
+  modalCtx = { tipo:'gasto', acao:'editar', categoria, idx };
+  document.getElementById('modalNomeTitulo').textContent = 'Editar item';
+  document.getElementById('modalNomeLabel').textContent = 'DESCRIÇÃO';
+  document.getElementById('modalNomeInput').value = dadosPedidos.gastos[categoria][idx];
+  document.getElementById('modalNome').classList.add('active');
+  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
+}
+function abrirModalNovoGasto() {
+  modalCtx = { tipo:'gasto', acao:'novo', categoria: gatosCategoriaAtiva };
+  document.getElementById('modalNomeTitulo').textContent = 'Novo item — ' + gatosCategoriaAtiva;
+  document.getElementById('modalNomeLabel').textContent = 'DESCRIÇÃO';
+  document.getElementById('modalNomeInput').value = '';
+  document.getElementById('modalNome').classList.add('active');
+  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
+}
+
+function abrirModalNovo(tipo, chave) {
+  modalCtx = { tipo, chave, acao:'novo' };
+  document.getElementById('modalNomeTitulo').textContent = tipo === 'cardapio' ? 'Novo sabor — Cardápio' : 'Novo sabor — Pedidos';
+  document.getElementById('modalNomeLabel').textContent = 'NOME';
+  document.getElementById('modalNomeInput').value = '';
+  document.getElementById('modalNome').classList.add('active');
+  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
+}
+function abrirModalEditar(tipo, chave, idx) {
+  modalCtx = { tipo, chave, idx, acao:'editar' };
+  document.getElementById('modalNomeTitulo').textContent = 'Renomear';
+  document.getElementById('modalNomeLabel').textContent = 'NOME';
+  const nome = tipo === 'cardapio' ? dadosCardapio[chave][idx].nome : dadosPedidos.sabores[chave][idx];
+  document.getElementById('modalNomeInput').value = nome;
+  document.getElementById('modalNome').classList.add('active');
+  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
+}
+
+function confirmarModalNome() {
+  const valor = document.getElementById('modalNomeInput').value.trim();
+  if (!valor) return;
+  const { tipo, chave, idx, acao, categoria } = modalCtx;
+
+  if (tipo === 'cardapio') {
+    if (acao === 'novo') dadosCardapio[chave].push({ nome: valor, fotos: [] });
+    else dadosCardapio[chave][idx].nome = valor;
+    fecharModal('modalNome');
+    marcarAlterado('cardapio');
+    renderSaboresCardapio(chave, gridIdCardapio(chave));
+
+  } else if (tipo === 'pedidos-sabores') {
+    if (!dadosPedidos.sabores[chave]) dadosPedidos.sabores[chave] = [];
+    if (acao === 'novo') dadosPedidos.sabores[chave].push(valor);
+    else dadosPedidos.sabores[chave][idx] = valor;
+    fecharModal('modalNome');
+    marcarAlterado('pedidos');
+    renderSaboresPedidos(chave, 'grid-p-' + chave);
+
+  } else if (tipo === 'gasto') {
+    if (!dadosPedidos.gastos[categoria]) dadosPedidos.gastos[categoria] = [];
+    if (acao === 'novo') dadosPedidos.gastos[categoria].push(valor);
+    else dadosPedidos.gastos[categoria][idx] = valor;
+    fecharModal('modalNome');
+    marcarAlterado('pedidos');
+    renderGastos(categoria);
+  }
+}
+
+document.querySelectorAll('#mainTabs .admin-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#mainTabs .admin-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('visible'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('visible');
+  });
+});
+
+function fecharModal(id) { document.getElementById(id).classList.remove('active'); }
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('active'); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(el => el.classList.remove('active'));
+  if (e.key === 'Enter') {
+    if (document.getElementById('modalNome').classList.contains('active')) confirmarModalNome();
+    if (document.getElementById('modalFoto').classList.contains('active')) confirmarModalFoto();
+  }
+});
+
+function marcarAlterado(qual) {
+  if (qual === 'cardapio') alteradoCardapio = true;
+  if (qual === 'pedidos')  alteradoPedidos  = true;
+  document.getElementById('salvarBar').classList.add('visivel');
+}
+
+function salvarConfig() {
+  const token = document.getElementById('cfgToken').value.trim();
+  if (!token) { showToast('Informe o token', 'err'); return; }
+  localStorage.setItem('gh_token', token);
+  carregarConfigUI();
+  showToast('Token salvo!', 'ok');
+}
+function carregarConfigUI() {
+  const token = localStorage.getItem('gh_token') || '';
+  document.getElementById('cfgToken').value = token;
+  document.getElementById('configStatus').innerHTML = token
+    ? '<span class="config-status ok">✓ Token configurado — docesflor/admin</span>'
+    : '<span class="config-status err">⚠ Token não configurado</span>';
+}
+
+const GH_OWNER = 'docesflor';
+const GH_REPO  = 'admin';
+
+async function salvarNoGitHub() {
+  const token = localStorage.getItem('gh_token');
+  if (!token) { showToast('Configure o token na aba Config', 'err'); return; }
+  const btn = document.getElementById('btnSalvar');
+  btn.disabled = true;
+  btn.textContent = 'Salvando…';
+  try {
+    if (alteradoCardapio) await commitArquivo(token, 'dados-cardapio.json', dadosCardapio);
+    if (alteradoPedidos)  await commitArquivo(token, 'dados-pedidos.json',  dadosPedidos);
+    alteradoCardapio = false;
+    alteradoPedidos  = false;
+    document.getElementById('salvarBar').classList.remove('visivel');
+    showToast('✓ Salvo e publicado!', 'ok');
+  } catch(err) {
+    showToast('Erro: ' + err.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 Salvar e publicar';
+  }
+}
+
+async function commitArquivo(token, filename, dados) {
+  const apiBase = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + filename;
+  const infoRes = await fetch(apiBase, { headers: { Authorization: 'token ' + token } });
+  const info = await infoRes.json();
+  if (!infoRes.ok) throw new Error(info.message || 'Erro ao buscar ' + filename);
+  const conteudo = JSON.stringify(dados, null, 2);
+  const base64   = btoa(unescape(encodeURIComponent(conteudo)));
+  const putRes = await fetch(apiBase, {
+    method: 'PUT',
+    headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'Admin: atualiza ' + filename, content: base64, sha: info.sha })
+  });
+  const putData = await putRes.json();
+  if (!putRes.ok) throw new Error(putData.message || 'Erro ao salvar ' + filename);
+}
+
+let toastTimer;
+function showToast(msg, tipo) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (tipo ? ' ' + tipo : '');
+  requestAnimationFrame(() => t.classList.add('show'));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
