@@ -44,8 +44,9 @@
   .btn-sair:hover { border-color:var(--red); color:var(--red); }
   .admin-body { max-width:960px; margin:0 auto; padding:2rem 1.25rem 5rem; }
 
-  .admin-tabs { display:flex; gap:6px; background:var(--cream-dark); border-radius:16px; padding:5px; margin-bottom:2rem; flex-wrap:wrap; }
-  .admin-tab { flex:1; min-width:80px; padding:0.6rem 1rem; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:500; cursor:pointer; background:transparent; color:var(--brown-warm); transition:all 0.25s; white-space:nowrap; }
+  .admin-tabs { display:flex; gap:6px; background:var(--cream-dark); border-radius:16px; padding:5px; margin-bottom:2rem; flex-wrap:wrap; justify-content:center; }
+  .admin-tab { flex:0 0 auto; padding:0.55rem 0.85rem; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; cursor:pointer; background:transparent; color:var(--brown-warm); transition:all 0.25s; white-space:nowrap; }
+  @media (max-width:600px) { .admin-tab { font-size:0.73rem; padding:0.5rem 0.65rem; } }
   .admin-tab.active { background:var(--brown-dark); color:var(--amber-light); box-shadow:0 3px 10px var(--shadow); }
 
   .inner-tabs { display:flex; gap:5px; background:rgba(0,0,0,0.06); border-radius:12px; padding:4px; margin-bottom:1.25rem; flex-wrap:wrap; }
