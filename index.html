@@ -92,9 +92,9 @@
   .preco-field input { width:100px; padding:0.4rem 0.6rem; border:2px solid var(--cream-dark); border-radius:8px; font-size:0.88rem; font-family:'DM Sans',sans-serif; color:var(--brown-dark); text-align:right; transition:border-color 0.2s; }
   .preco-field input:focus { outline:none; border-color:var(--amber); }
 
-  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; display:none; align-items:center; justify-content:center; }
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; display:none; align-items:center; justify-content:center; padding:1rem; }
   .modal-overlay.active { display:flex; }
-  .modal-box { background:var(--white); border-radius:20px; padding:1.75rem; width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+  .modal-box { background:var(--white); border-radius:20px; padding:1.75rem; width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto; }
   .modal-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--brown-dark); margin-bottom:1.25rem; }
   .form-field { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1rem; }
   .form-field label { font-size:0.78rem; font-weight:600; color:var(--brown-warm); letter-spacing:0.03em; }
@@ -107,24 +107,41 @@
   .btn-cancelar { flex:1; padding:0.65rem; background:none; border:2px solid var(--cream-dark); color:var(--brown-warm); border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer; transition:all 0.2s; }
   .btn-cancelar:hover { border-color:var(--red); color:var(--red); }
 
+  /* Modal exportação */
+  .modal-export { max-width:660px; }
+  .export-instrucoes { background:var(--cream); border-radius:12px; padding:1rem 1.1rem; margin-bottom:1.25rem; }
+  .export-instrucoes h4 { font-size:0.82rem; font-weight:700; color:var(--brown-dark); margin-bottom:0.5rem; letter-spacing:0.03em; }
+  .export-instrucoes ol { padding-left:1.1rem; font-size:0.8rem; color:var(--brown-warm); line-height:1.9; }
+  .export-instrucoes code { background:var(--cream-dark); padding:0.1rem 0.4rem; border-radius:4px; font-size:0.78rem; color:var(--brown-dark); }
+  .export-arquivo { margin-bottom:1.25rem; }
+  .export-arquivo-label { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem; flex-wrap:wrap; gap:0.5rem; }
+  .export-arquivo-label span { font-size:0.85rem; font-weight:700; color:var(--brown-dark); }
+  .export-arquivo-acoes { display:flex; gap:0.5rem; align-items:center; }
+  .btn-copiar { display:inline-flex; align-items:center; gap:0.3rem; padding:0.35rem 1rem; background:var(--amber); color:white; border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer; transition:background 0.2s; white-space:nowrap; }
+  .btn-copiar:hover { background:var(--brown-warm); }
+  .btn-copiar.copiado { background:var(--green); }
+  .export-link { font-size:0.75rem; color:var(--amber); font-weight:600; text-decoration:none; white-space:nowrap; }
+  .export-link:hover { text-decoration:underline; }
+  .export-textarea { width:100%; height:150px; padding:0.75rem; border:2px solid var(--cream-dark); border-radius:10px; font-family:monospace; font-size:0.72rem; color:var(--brown-dark); background:var(--cream); resize:vertical; line-height:1.4; }
+  .export-textarea:focus { outline:none; border-color:var(--amber); }
+
   .salvar-bar { position:fixed; bottom:0; left:0; right:0; background:var(--white); border-top:1px solid var(--cream-dark); padding:0.9rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; z-index:200; box-shadow:0 -4px 20px var(--shadow); transform:translateY(100%); transition:transform 0.3s ease; }
   .salvar-bar.visivel { transform:translateY(0); }
   .salvar-bar-msg { font-size:0.85rem; color:var(--brown-warm); }
   .salvar-bar-msg strong { color:var(--brown-dark); }
   .btn-salvar { display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.5rem; background:var(--green); color:white; border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.2s,transform 0.15s; white-space:nowrap; }
   .btn-salvar:hover { background:#3a6347; transform:scale(1.03); }
-  .btn-salvar:disabled { background:#aaa; cursor:not-allowed; transform:none; }
 
   .config-card { background:var(--white); border-radius:16px; padding:1.5rem; box-shadow:0 4px 18px var(--shadow); max-width:560px; }
-  .config-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--brown-dark); margin-bottom:0.25rem; }
-  .config-card p { font-size:0.82rem; color:var(--brown-warm); margin-bottom:1.25rem; line-height:1.5; }
-  .config-status { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.8rem; font-weight:600; padding:0.3rem 0.8rem; border-radius:50px; margin-bottom:1rem; }
-  .config-status.ok  { background:#dcfce7; color:var(--green); }
-  .config-status.err { background:#fef2f2; color:var(--red); }
-  .info-box { background:var(--cream); border:1px solid var(--cream-dark); border-radius:12px; padding:1rem 1.1rem; margin-top:1.5rem; }
+  .config-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--brown-dark); margin-bottom:0.5rem; }
+  .config-card > p { font-size:0.82rem; color:var(--brown-warm); margin-bottom:1.25rem; line-height:1.5; }
+  .info-box { background:var(--cream); border:1px solid var(--cream-dark); border-radius:12px; padding:1rem 1.1rem; margin-top:1rem; }
   .info-box h4 { font-size:0.82rem; font-weight:700; color:var(--brown-dark); margin-bottom:0.5rem; letter-spacing:0.03em; }
-  .info-box ol { padding-left:1.1rem; font-size:0.8rem; color:var(--brown-warm); line-height:1.8; }
+  .info-box ol { padding-left:1.1rem; font-size:0.8rem; color:var(--brown-warm); line-height:1.9; }
+  .info-box li { margin-bottom:0.1rem; }
   .info-box code { background:var(--cream-dark); padding:0.1rem 0.4rem; border-radius:4px; font-size:0.78rem; color:var(--brown-dark); }
+  .info-box-links { list-style:none !important; padding-left:0 !important; }
+  .info-box-links li { margin-bottom:0.5rem; }
 
   .toast { position:fixed; bottom:5rem; left:50%; transform:translateX(-50%) translateY(20px); background:var(--brown-dark); color:var(--amber-light); padding:0.65rem 1.4rem; border-radius:50px; font-size:0.88rem; font-weight:500; z-index:9999; opacity:0; transition:opacity 0.3s,transform 0.3s; pointer-events:none; white-space:nowrap; box-shadow:0 6px 20px rgba(0,0,0,0.3); }
   .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
@@ -134,7 +151,6 @@
   @media (max-width:500px) {
     .sabores-grid { grid-template-columns:1fr; }
     .precos-grid  { grid-template-columns:1fr; }
-    .admin-tab { font-size:0.75rem; padding:0.5rem 0.6rem; }
   }
 </style>
 </head>
@@ -243,31 +259,40 @@
 
     <div class="admin-section" id="tab-config">
       <div class="config-card">
-        <h3>Conexão com GitHub</h3>
-        <p>Salva os dados diretamente no repositório <strong>docesflor/admin</strong>. Configure o token uma única vez.</p>
-        <div id="configStatus"></div>
-        <div class="form-field">
-          <label>TOKEN DE ACESSO PESSOAL</label>
-          <input type="password" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-          <small>Salvo apenas no seu navegador (localStorage). Nunca enviado a terceiros.</small>
-        </div>
-        <button class="btn-confirmar" style="width:100%;margin-top:0.5rem;" onclick="salvarConfig()">Salvar token</button>
+        <h3>Como publicar alterações</h3>
+        <p>Após editar, clique em <strong>"Gerar JSONs"</strong> na barra inferior. Copie cada arquivo e cole diretamente no GitHub.</p>
         <div class="info-box">
-          <h4>COMO CRIAR O TOKEN NO GITHUB</h4>
+          <h4>PASSO A PASSO</h4>
           <ol>
-            <li>Acesse <code>github.com → Settings → Developer settings</code></li>
-            <li>Clique em <code>Personal access tokens → Tokens (classic)</code></li>
-            <li>Clique em <code>Generate new token (classic)</code></li>
-            <li>Dê um nome (ex: <code>doces-flor-admin</code>)</li>
-            <li>Marque a permissão <code>repo</code> (acesso completo)</li>
-            <li>Clique em <code>Generate token</code> e copie o valor</li>
-            <li>Cole o token acima e salve</li>
+            <li>Faça as alterações nas abas acima</li>
+            <li>Clique em <strong>Gerar JSONs</strong> na barra inferior</li>
+            <li>Clique em <strong>Copiar</strong> ao lado do arquivo alterado</li>
+            <li>Clique em <strong>Abrir no GitHub ↗</strong></li>
+            <li>Clique no ícone ✏️ (Edit this file)</li>
+            <li>Selecione tudo <code>Ctrl+A</code> e cole o conteúdo copiado</li>
+            <li>Clique em <strong>Commit changes</strong> e confirme</li>
+            <li>Repita para o outro arquivo se necessário</li>
           </ol>
+        </div>
+        <div class="info-box" style="margin-top:0.75rem;">
+          <h4>LINKS DIRETOS</h4>
+          <ul class="info-box-links">
+            <li>📄 <a href="https://github.com/docesflor/admin/edit/main/dados-cardapio.json" target="_blank" style="color:var(--amber);font-weight:600;">Editar dados-cardapio.json ↗</a></li>
+            <li>📄 <a href="https://github.com/docesflor/admin/edit/main/dados-pedidos.json" target="_blank" style="color:var(--amber);font-weight:600;">Editar dados-pedidos.json ↗</a></li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- SALVAR BAR -->
+<div class="salvar-bar" id="salvarBar">
+  <div class="salvar-bar-msg"><strong>Há alterações não salvas.</strong> Gere os JSONs e cole no GitHub.</div>
+  <button class="btn-salvar" id="btnSalvar" onclick="abrirModalExport()">📋 Gerar JSONs</button>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <!-- MODAL NOME -->
 <div class="modal-overlay" id="modalNome">
@@ -300,13 +325,48 @@
   </div>
 </div>
 
-<!-- SALVAR BAR -->
-<div class="salvar-bar" id="salvarBar">
-  <div class="salvar-bar-msg"><strong>Há alterações não salvas.</strong> Clique em salvar para publicar.</div>
-  <button class="btn-salvar" id="btnSalvar" onclick="salvarNoGitHub()">💾 Salvar e publicar</button>
-</div>
+<!-- MODAL EXPORT -->
+<div class="modal-overlay" id="modalExport">
+  <div class="modal-box modal-export">
+    <h3>📋 Publicar alterações</h3>
 
-<div class="toast" id="toast"></div>
+    <div class="export-instrucoes">
+      <h4>COMO PUBLICAR</h4>
+      <ol>
+        <li>Clique em <strong>Copiar</strong> no arquivo alterado</li>
+        <li>Clique em <strong>Abrir no GitHub ↗</strong></li>
+        <li>Clique em ✏️, selecione tudo <code>Ctrl+A</code> e cole</li>
+        <li>Clique em <strong>Commit changes</strong></li>
+      </ol>
+    </div>
+
+    <div class="export-arquivo" id="exportCardapioWrap">
+      <div class="export-arquivo-label">
+        <span>📄 dados-cardapio.json</span>
+        <div class="export-arquivo-acoes">
+          <a class="export-link" href="https://github.com/docesflor/admin/edit/main/dados-cardapio.json" target="_blank">Abrir no GitHub ↗</a>
+          <button class="btn-copiar" id="btnCopiarCardapio" onclick="copiarJSON('cardapio')">📋 Copiar</button>
+        </div>
+      </div>
+      <textarea class="export-textarea" id="exportCardapioText" readonly></textarea>
+    </div>
+
+    <div class="export-arquivo" id="exportPedidosWrap">
+      <div class="export-arquivo-label">
+        <span>📄 dados-pedidos.json</span>
+        <div class="export-arquivo-acoes">
+          <a class="export-link" href="https://github.com/docesflor/admin/edit/main/dados-pedidos.json" target="_blank">Abrir no GitHub ↗</a>
+          <button class="btn-copiar" id="btnCopiarPedidos" onclick="copiarJSON('pedidos')">📋 Copiar</button>
+        </div>
+      </div>
+      <textarea class="export-textarea" id="exportPedidosText" readonly></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancelar" onclick="fecharModal('modalExport')">Fechar</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const SENHA = 'docesflor2025';
@@ -318,6 +378,93 @@ let alteradoPedidos  = false;
 let modalCtx = {};
 let gatosCategoriaAtiva = 'Ingredientes';
 
+// ── DADOS PADRÃO (fonte: sites existentes) ──────────────────────────────
+const DADOS_CARDAPIO_PADRAO = {
+  trads: [
+    { nome: 'Amendoim',              fotos: ['amendoim.png'] },
+    { nome: 'Beijinho',              fotos: ['beijinho.png'] },
+    { nome: 'Brigadeiro',            fotos: ['brigadeiro.png'] },
+    { nome: 'Café',                  fotos: ['cafe.png'] },
+    { nome: 'Dois Amores',           fotos: ['dois-amores.png'] },
+    { nome: 'Leite Ninho',           fotos: ['leite-ninho.png'] },
+    { nome: 'Moranguinho (Nesquik)', fotos: ['moranguinho.png'] },
+    { nome: 'Prestígio',             fotos: ['prestigio.png'] },
+    { nome: 'Sensação',              fotos: ['sensacao.png'] }
+  ],
+  frutas: [
+    { nome: 'Amora',            fotos: ['amora.png'] },
+    { nome: 'Banana',           fotos: ['banana.png'] },
+    { nome: 'Cereja',           fotos: ['cereja.png'] },
+    { nome: 'Frutas Vermelhas', fotos: ['frutas-vermelhas.png'] },
+    { nome: 'Limão',            fotos: ['limao.png'] },
+    { nome: 'Maracujá',         fotos: ['maracuja.png'] },
+    { nome: 'Uva',              fotos: ['uva.png'] }
+  ],
+  gourmets: [
+    { nome: 'Chocolate Gourmet',       fotos: ['chocolate-gourmet.png'] },
+    { nome: 'Confete',                 fotos: ['confete.png'] },
+    { nome: 'Churros',                 fotos: ['churros.png'] },
+    { nome: 'Ferrero Rocher',          fotos: ['ferrero.png'] },
+    { nome: 'Leite Ninho com Nutella', fotos: ['leite-ninho-nutella.png'] },
+    { nome: 'Negresco',                fotos: ['negresco.png'] },
+    { nome: 'Ovomaltine',              fotos: ['ovomaltine.png'] }
+  ],
+  precos: {
+    trad:    { 25: 35, 50: 60, 75: 82.50, 100: 110 },
+    frutas:  { 25: 40, 50: 70, 75: 105,   100: 125 },
+    gourmet: { 25: 45, 50: 80, 75: 120,   100: 140 },
+    avulsa:  { trad: 1.50, frutas: 1.75, gourmet: 2.00 }
+  }
+};
+
+const DADOS_PEDIDOS_PADRAO = {
+  sabores: {
+    trads: [
+      'Amendoim','Beijinho','Brigadeiro','Café','Dois Amores',
+      'Leite Ninho','Moranguinho (Nesquik)','Prestígio','Sensação'
+    ],
+    gourmets: [
+      'Chocolate Gourmet','Confete','Churros','Ferrero Rocher',
+      'Leite Ninho com Nutella','Negresco','Ovomaltine'
+    ],
+    frutas: [
+      'Amora','Banana','Cereja','Frutas Vermelhas','Limão','Maracujá','Uva'
+    ]
+  },
+  precos: {
+    trad:    { 25: 35, 50: 60, 75: 82.50, 100: 110, avulso: 1.50 },
+    frutas:  { 25: 40, 50: 70, 75: 105,   100: 125, avulso: 1.75 },
+    gourmet: { 25: 45, 50: 80, 75: 120,   100: 140, avulso: 2.00 }
+  },
+  gastos: {
+    'Ingredientes': [
+      'Leite condensado','Creme de leite','Chocolate em pó','Chocolate granulado',
+      'Manteiga','Margarina','Leite Ninho','Açúcar refinado','Glucose de milho',
+      'Cobertura fracionada (chocolate)','Cobertura fracionada (branco)','Chantilly',
+      'Essência de baunilha','Corante alimentício','Coco ralado','Amendoim torrado',
+      'Doce de leite','Oreo triturado','Cacau em pó','Creme de avelã (Nutella)',
+      'Leite condensado diet'
+    ],
+    'Embalagens': [
+      'Forminha papel redonda','Forminha papel quadrada','Forminha papel coração',
+      'Forminha papel flor','Caixa para 6 brigadeiros','Caixa para 12 brigadeiros',
+      'Caixa para 20 brigadeiros','Sacola kraft pequena','Sacola kraft média',
+      'Etiqueta adesiva','Fita de cetim','Papel seda','Tag personalizada',
+      'Embalagem térmica','Papel filme / bobina'
+    ],
+    'Gás/Energia': [
+      'Gás de cozinha (GLP)','Conta de energia elétrica','Conta de água','Manutenção fogão'
+    ],
+    'Entrega': [
+      'Taxa de entrega (motoboy)','Combustível','Estacionamento','Pedágio','Aplicativo de entrega'
+    ],
+    'Outros': [
+      'Impostos','Taxas','Uniforme','Equipamentos','Material de limpeza','Divulgação / Marketing'
+    ]
+  }
+};
+
+// ── LOGIN ────────────────────────────────────────────────────────────────
 function fazerLogin() {
   if (document.getElementById('inputSenha').value === SENHA) {
     document.getElementById('loginScreen').style.display = 'none';
@@ -334,34 +481,37 @@ function sair() {
   document.getElementById('inputSenha').value = '';
 }
 
+// ── INICIAR ──────────────────────────────────────────────────────────────
+const REPO_RAW = 'https://raw.githubusercontent.com/docesflor/admin/main/';
+
 async function iniciar() {
-  carregarConfigUI();
   await Promise.all([carregarCardapio(), carregarPedidos()]);
   renderTudo();
 }
 
-const REPO_RAW = 'https://raw.githubusercontent.com/docesflor/admin/main/';
-
 async function carregarCardapio() {
   try {
     const r = await fetch(REPO_RAW + 'dados-cardapio.json?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     dadosCardapio = await r.json();
   } catch(e) {
-    showToast('Erro ao carregar dados-cardapio.json', 'err');
-    dadosCardapio = { trads:[], frutas:[], gourmets:[], precos:{} };
+    dadosCardapio = JSON.parse(JSON.stringify(DADOS_CARDAPIO_PADRAO));
+    showToast('Usando dados padrão — cardápio', 'err');
   }
 }
 
 async function carregarPedidos() {
   try {
     const r = await fetch(REPO_RAW + 'dados-pedidos.json?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     dadosPedidos = await r.json();
   } catch(e) {
-    showToast('Erro ao carregar dados-pedidos.json', 'err');
-    dadosPedidos = { sabores:{ trads:[], gourmets:[], frutas:[] }, precos:{}, gastos:{} };
+    dadosPedidos = JSON.parse(JSON.stringify(DADOS_PEDIDOS_PADRAO));
+    showToast('Usando dados padrão — pedidos', 'err');
   }
 }
 
+// ── RENDER ───────────────────────────────────────────────────────────────
 function renderTudo() {
   renderSaboresCardapio('trads',    'grid-c-trads');
   renderSaboresCardapio('frutas',   'grid-c-frutas');
@@ -406,7 +556,6 @@ function removerCardapio(chave, idx) {
   marcarAlterado('cardapio');
   renderSaboresCardapio(chave, gridIdCardapio(chave));
 }
-
 function gridIdCardapio(chave) {
   return chave === 'trads' ? 'grid-c-trads' : chave === 'frutas' ? 'grid-c-frutas' : 'grid-c-gourmets';
 }
@@ -620,6 +769,7 @@ function confirmarModalNome() {
   }
 }
 
+// ── TABS ─────────────────────────────────────────────────────────────────
 document.querySelectorAll('#mainTabs .admin-tab').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#mainTabs .admin-tab').forEach(b => b.classList.remove('active'));
@@ -647,61 +797,54 @@ function marcarAlterado(qual) {
   document.getElementById('salvarBar').classList.add('visivel');
 }
 
-function salvarConfig() {
-  const token = document.getElementById('cfgToken').value.trim();
-  if (!token) { showToast('Informe o token', 'err'); return; }
-  localStorage.setItem('gh_token', token);
-  carregarConfigUI();
-  showToast('Token salvo!', 'ok');
-}
-function carregarConfigUI() {
-  const token = localStorage.getItem('gh_token') || '';
-  document.getElementById('cfgToken').value = token;
-  document.getElementById('configStatus').innerHTML = token
-    ? '<span class="config-status ok">✓ Token configurado — docesflor/admin</span>'
-    : '<span class="config-status err">⚠ Token não configurado</span>';
+// ── EXPORTAR JSONs ────────────────────────────────────────────────────────
+function abrirModalExport() {
+  // Sempre mostra os dois arquivos no modal
+  document.getElementById('exportCardapioText').value = JSON.stringify(dadosCardapio, null, 2);
+  document.getElementById('exportPedidosText').value  = JSON.stringify(dadosPedidos,  null, 2);
+
+  // Destaca visualmente os que foram alterados
+  const wrapC = document.getElementById('exportCardapioWrap');
+  const wrapP = document.getElementById('exportPedidosWrap');
+  wrapC.style.opacity = alteradoCardapio ? '1' : '0.55';
+  wrapP.style.opacity = alteradoPedidos  ? '1' : '0.55';
+
+  document.getElementById('modalExport').classList.add('active');
 }
 
-const GH_OWNER = 'docesflor';
-const GH_REPO  = 'admin';
+function copiarJSON(qual) {
+  const taId  = qual === 'cardapio' ? 'exportCardapioText' : 'exportPedidosText';
+  const btnId = qual === 'cardapio' ? 'btnCopiarCardapio'  : 'btnCopiarPedidos';
+  const texto = document.getElementById(taId).value;
+  const btn   = document.getElementById(btnId);
 
-async function salvarNoGitHub() {
-  const token = localStorage.getItem('gh_token');
-  if (!token) { showToast('Configure o token na aba Config', 'err'); return; }
-  const btn = document.getElementById('btnSalvar');
-  btn.disabled = true;
-  btn.textContent = 'Salvando…';
-  try {
-    if (alteradoCardapio) await commitArquivo(token, 'dados-cardapio.json', dadosCardapio);
-    if (alteradoPedidos)  await commitArquivo(token, 'dados-pedidos.json',  dadosPedidos);
-    alteradoCardapio = false;
-    alteradoPedidos  = false;
-    document.getElementById('salvarBar').classList.remove('visivel');
-    showToast('✓ Salvo e publicado!', 'ok');
-  } catch(err) {
-    showToast('Erro: ' + err.message, 'err');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '💾 Salvar e publicar';
+  const marcarCopiado = () => {
+    btn.textContent = '✓ Copiado!';
+    btn.classList.add('copiado');
+    if (qual === 'cardapio') alteradoCardapio = false;
+    else alteradoPedidos = false;
+    if (!alteradoCardapio && !alteradoPedidos) {
+      document.getElementById('salvarBar').classList.remove('visivel');
+    }
+    showToast('✓ Copiado! Agora cole no GitHub.', 'ok');
+    setTimeout(() => { btn.textContent = '📋 Copiar'; btn.classList.remove('copiado'); }, 3000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto).then(marcarCopiado).catch(() => {
+      document.getElementById(taId).select();
+      document.execCommand('copy');
+      marcarCopiado();
+    });
+  } else {
+    const ta = document.getElementById(taId);
+    ta.select();
+    document.execCommand('copy');
+    marcarCopiado();
   }
 }
 
-async function commitArquivo(token, filename, dados) {
-  const apiBase = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + filename;
-  const infoRes = await fetch(apiBase, { headers: { Authorization: 'token ' + token } });
-  const info = await infoRes.json();
-  if (!infoRes.ok) throw new Error(info.message || 'Erro ao buscar ' + filename);
-  const conteudo = JSON.stringify(dados, null, 2);
-  const base64   = btoa(unescape(encodeURIComponent(conteudo)));
-  const putRes = await fetch(apiBase, {
-    method: 'PUT',
-    headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: 'Admin: atualiza ' + filename, content: base64, sha: info.sha })
-  });
-  const putData = await putRes.json();
-  if (!putRes.ok) throw new Error(putData.message || 'Erro ao salvar ' + filename);
-}
-
+// ── TOAST ─────────────────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg, tipo) {
   const t = document.getElementById('toast');
@@ -709,7 +852,7 @@ function showToast(msg, tipo) {
   t.className = 'toast' + (tipo ? ' ' + tipo : '');
   requestAnimationFrame(() => t.classList.add('show'));
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
 }
 </script>
 </body>
