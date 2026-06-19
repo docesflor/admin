@@ -83,6 +83,34 @@ body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--bd);min-h
 .btn-af{display:inline-flex;align-items:center;gap:.25rem;background:none;border:1.5px dashed var(--am);color:var(--am);border-radius:7px;padding:.18rem .62rem;font-size:.7rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all .15s;}
 .btn-af:hover{background:var(--am);color:var(--wh);}
 
+/* SABOR ITEM (para imagem cardápio) */
+.sabor-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.btn-remover {
+  background: none;
+  border: 1px solid var(--cd);
+  color: var(--bw);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.btn-remover:hover {
+  border-color: var(--rd);
+  color: var(--rd);
+}
+
 /* SIMPLES */
 .sl{display:flex;flex-direction:column;gap:.44rem;}
 .si{display:flex;align-items:center;justify-content:space-between;background:var(--cr);border:1px solid var(--cd);border-radius:10px;padding:.54rem .84rem;font-size:.85rem;color:var(--bd);}
@@ -234,6 +262,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--bd);min-h
       <button class="at" data-tab="precos-ped">💳 Preços Pedido</button>
       <button class="at" data-tab="gastos">💸 Gastos</button>
       <button class="at" data-tab="publicar">⚙️ Publicar</button>
+      <button class="at" data-tab="imagem-cardapio">🖼️ Imagem Cardápio</button>
     </div>
   </header>
 
@@ -346,6 +375,172 @@ body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--bd);min-h
       </div>
     </div>
 
+        <!-- IMAGEM CARDÁPIO -->
+    <div class="adm-sec" id="tab-imagem-cardapio">
+      <div class="sec-tit">Imagem do Cardápio</div>
+      <div style="max-width:900px;margin:0 auto;">
+        
+        <!-- PAINEL DE EDIÇÃO -->
+        <div style="background:rgba(0,0,0,.06);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+            <div>
+              <h3 style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--am);margin-bottom:0.6rem;padding-bottom:0.4rem;border-bottom:1px solid var(--cd);">🍫 Tradicionais</h3>
+              <div class="sabor-list" id="list-trad"></div>
+              <button class="btn-n" style="width:100%;margin-top:0.5rem;" onclick="adicionarSaborImg('trad')">+ Adicionar sabor</button>
+            </div>
+            <div>
+              <h3 style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--am);margin-bottom:0.6rem;padding-bottom:0.4rem;border-bottom:1px solid var(--cd);">🍓 Frutas</h3>
+              <div class="sabor-list" id="list-frutas"></div>
+              <button class="btn-n" style="width:100%;margin-top:0.5rem;" onclick="adicionarSaborImg('frutas')">+ Adicionar sabor</button>
+            </div>
+            <div>
+              <h3 style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--am);margin-bottom:0.6rem;padding-bottom:0.4rem;border-bottom:1px solid var(--cd);">⭐ Gourmet</h3>
+              <div class="sabor-list" id="list-gourmet"></div>
+              <button class="btn-n" style="width:100%;margin-top:0.5rem;" onclick="adicionarSaborImg('gourmet')">+ Adicionar sabor</button>
+            </div>
+          </div>
+
+          <div style="background:var(--wh);border-radius:12px;padding:1rem;margin-bottom:1rem;">
+            <h3 style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--am);margin-bottom:0.75rem;">Tabela de Preços</h3>
+            <div style="display:grid;grid-template-columns:140px 1fr 1fr 1fr;gap:0.4rem;align-items:center;">
+              <div></div>
+              <div style="font-size:0.72rem;font-weight:600;color:#888;text-align:center;">Tradicional</div>
+              <div style="font-size:0.72rem;font-weight:600;color:#888;text-align:center;">Frutas</div>
+              <div style="font-size:0.72rem;font-weight:600;color:#888;text-align:center;">Gourmet</div>
+
+              <div style="font-size:0.82rem;font-weight:600;color:var(--bd);">Caixa 25 un.</div>
+              <input type="text" id="p-trad-25" value="R$ 35,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-frutas-25" value="R$ 40,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-gourmet-25" value="R$ 45,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+
+              <div style="font-size:0.82rem;font-weight:600;color:var(--bd);">Caixa 50 un.</div>
+              <input type="text" id="p-trad-50" value="R$ 60,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-frutas-50" value="R$ 70,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-gourmet-50" value="R$ 80,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+
+              <div style="font-size:0.82rem;font-weight:600;color:var(--bd);">Caixa 75 un.</div>
+              <input type="text" id="p-trad-75" value="R$ 90,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-frutas-75" value="R$ 105,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-gourmet-75" value="R$ 120,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+
+              <div style="font-size:0.82rem;font-weight:600;color:var(--bd);">Cento (100 un)</div>
+              <input type="text" id="p-trad-100" value="R$ 110,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-frutas-100" value="R$ 125,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="p-gourmet-100" value="R$ 140,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+            </div>
+          </div>
+
+          <div style="background:var(--wh);border-radius:12px;padding:1rem;">
+            <h3 style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gn);margin-bottom:0.75rem;">Combos Mistos</h3>
+            <div style="display:grid;grid-template-columns:1fr 90px 90px;gap:0.5rem;align-items:center;margin-bottom:0.5rem;">
+              <div></div>
+              <div style="font-size:0.72rem;color:#888;text-align:center;">Valor</div>
+              <div style="font-size:0.72rem;color:#888;text-align:center;">Economia</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 90px 90px;gap:0.5rem;align-items:center;margin-bottom:0.5rem;">
+              <label style="font-size:0.82rem;color:var(--bd);">Caixa Mista 50 un</label>
+              <input type="text" id="combo-50-valor" value="R$ 70,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="combo-50-eco" value="- R$ 10,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 90px 90px;gap:0.5rem;align-items:center;">
+              <label style="font-size:0.82rem;color:var(--bd);">Cento Misto 100 un</label>
+              <input type="text" id="combo-100-valor" value="R$ 125,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+              <input type="text" id="combo-100-eco" value="- R$ 15,00" style="padding:0.3rem 0.5rem;border:2px solid var(--cd);border-radius:6px;font-size:0.82rem;text-align:center;" onchange="atualizarPreviewImg()">
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTÕES DE AÇÃO -->
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+          <button class="btn-n" onclick="atualizarPreviewImg()" style="background:var(--am);color:var(--bd);">🔄 Atualizar Preview</button>
+          <button class="btn-n" onclick="exportarImagemCardapio()" style="background:var(--gn);color:var(--wh);">📥 Exportar PNG</button>
+        </div>
+        <div id="statusBarImg" style="text-align:center;font-size:0.82rem;color:#888;min-height:1.5rem;"></div>
+
+        <!-- PREVIEW -->
+        <div style="background:var(--cr);border-radius:16px;padding:1.5rem;margin-top:1.5rem;">
+          <div style="font-size:0.78rem;color:#888;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;text-align:center;">▼ Preview (o que será exportado)</div>
+          <div id="cardapio" style="background:var(--cr);width:800px;margin:0 auto;font-family:'DM Sans',sans-serif;color:#3D2010;overflow:hidden;border-radius:10px;box-shadow:0 4px 18px var(--sh);">
+            <!-- HEADER -->
+            <div style="background:var(--bd);padding:2.5rem 2rem 3.5rem;text-align:center;position:relative;">
+              <div style="position:absolute;bottom:-1px;left:0;right:0;height:55px;background:var(--cr);clip-path:ellipse(55% 100% at 50% 100%);"></div>
+              <div style="width:120px;height:120px;border-radius:50%;border:3px solid var(--am);padding:4px;background:var(--bd);margin:0 auto 1.1rem;overflow:hidden;position:relative;z-index:1;">
+                <img id="logoImg" src="https://raw.githubusercontent.com/docesflor/cardapio/main/icon-512.png" alt="Doces Flor" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" onerror="this.style.display='none';document.getElementById('logoFb').style.display='flex';">
+                <div id="logoFb" style="width:100%;height:100%;border-radius:50%;background:var(--am);display:none;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--bd);">DF</div>
+              </div>
+              <h1 style="font-family:'Cormorant Garamond',serif;font-size:3.6rem;font-weight:700;color:var(--cr);line-height:1;letter-spacing:0.04em;position:relative;z-index:1;">Doces <span style="color:var(--am);">Flor</span></h1>
+              <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--al);font-size:1.1rem;letter-spacing:0.14em;margin-top:0.3rem;position:relative;z-index:1;">Doces Artesanais</div>
+              <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1.1rem;flex-wrap:wrap;position:relative;z-index:1;">
+                <span style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 1.1rem;border-radius:50px;font-size:0.88rem;font-weight:500;color:white;background:#25D366;">📱 (47) 9 9274-5896</span>
+                <span style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 1.1rem;border-radius:50px;font-size:0.88rem;font-weight:500;color:white;background:linear-gradient(135deg,#f09433,#e6683c 30%,#dc2743 55%,#cc2366 78%,#bc1888);">📷 @docesflorjgs</span>
+              </div>
+            </div>
+
+            <!-- BODY -->
+            <div style="padding:2.5rem 2.5rem 0;">
+
+              <!-- Sabores -->
+              <div style="text-align:center;margin-bottom:1.5rem;">
+                <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--bd);">Nossos Sabores</h2>
+                <div style="display:flex;align-items:center;gap:0.75rem;max-width:180px;margin:0.4rem auto 0;">
+                  <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,var(--am));"></div>
+                  <span style="color:var(--am);font-size:0.85rem;">✦</span>
+                  <div style="flex:1;height:1px;background:linear-gradient(to left,transparent,var(--am));"></div>
+                </div>
+              </div>
+              <div id="preview-sabores" style="display:grid;grid-template-columns:1fr 1fr 1fr;border-radius:10px;overflow:hidden;box-shadow:0 3px 16px rgba(43,18,6,0.12);margin-bottom:2rem;"></div>
+
+              <!-- Preços -->
+              <div style="margin-bottom:2rem;">
+                <div style="text-align:center;margin-bottom:1.5rem;">
+                  <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--bd);">Tabela de Preços</h2>
+                  <div style="display:flex;align-items:center;gap:0.75rem;max-width:180px;margin:0.4rem auto 0;">
+                    <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,var(--am));"></div>
+                    <span style="color:var(--am);font-size:0.85rem;">✦</span>
+                    <div style="flex:1;height:1px;background:linear-gradient(to left,transparent,var(--am));"></div>
+                  </div>
+                </div>
+                <div style="border-radius:10px;overflow:hidden;box-shadow:0 3px 16px rgba(43,18,6,0.12);">
+                  <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;background:var(--bd);padding:0.75rem 1.5rem;text-align:center;">
+                    <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.07em;color:var(--al);text-transform:uppercase;text-align:left;">Quantidade</span>
+                    <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.07em;color:var(--al);text-transform:uppercase;">Tradicional</span>
+                    <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.07em;color:var(--al);text-transform:uppercase;">Frutas</span>
+                    <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.07em;color:var(--al);text-transform:uppercase;">Gourmet</span>
+                  </div>
+                  <div id="preview-precos"></div>
+                </div>
+              </div>
+
+              <!-- Combos -->
+              <div style="margin-bottom:2rem;">
+                <div style="text-align:center;margin-bottom:1.5rem;">
+                  <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--bd);">Combos Mistos</h2>
+                  <div style="display:flex;align-items:center;gap:0.75rem;max-width:180px;margin:0.4rem auto 0;">
+                    <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,var(--am));"></div>
+                    <span style="color:var(--am);font-size:0.85rem;">✦</span>
+                    <div style="flex:1;height:1px;background:linear-gradient(to left,transparent,var(--am));"></div>
+                  </div>
+                </div>
+                <div style="border-radius:10px;overflow:hidden;box-shadow:0 3px 16px rgba(43,18,6,0.12);">
+                  <div style="background:var(--gn);padding:0.65rem 1.5rem;text-align:center;font-size:0.82rem;font-weight:700;color:white;letter-spacing:0.07em;text-transform:uppercase;">🎁 COMBOS MISTOS — ECONOMIA GARANTIDA</div>
+                  <div style="display:grid;grid-template-columns:auto 1fr 120px 120px;background:var(--cd);padding:0.5rem 1.5rem;text-align:center;">
+                    <span style="font-size:0.75rem;font-weight:700;color:var(--bw);text-transform:uppercase;letter-spacing:0.05em;text-align:left;">Combo</span>
+                    <span style="font-size:0.75rem;font-weight:700;color:var(--bw);text-transform:uppercase;letter-spacing:0.05em;"></span>
+                    <span style="font-size:0.75rem;font-weight:700;color:var(--bw);text-transform:uppercase;letter-spacing:0.05em;">Valor</span>
+                    <span style="font-size:0.75rem;font-weight:700;color:var(--bw);text-transform:uppercase;letter-spacing:0.05em;">Economia</span>
+                  </div>
+                  <div id="preview-combos"></div>
+                  <div style="font-size:0.78rem;color:var(--bw);font-style:italic;text-align:center;padding:0.6rem 1.5rem 0.8rem;background:white;border-top:1px solid var(--cd);">* Cento Misto pode ser dividido em até 4 sabores (2 de cada categoria)</div>
+                </div>
+              </div>
+
+              <div style="text-align:center;font-size:0.82rem;color:var(--bw);font-style:italic;padding-bottom:2rem;">* Quantidade mínima: 25 unidades por sabor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div><!-- /adm-body -->
 </div><!-- /adminScreen -->
 
@@ -388,6 +583,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--bd);min-h
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 // ─── CONSTANTES ──────────────────────────────────────────────────────────────
 const SENHA   = 'docesflor2025';
@@ -551,6 +747,15 @@ function renderTudo() {
   rSabP('trads'); rSabP('gourmets'); rSabP('frutas');
   rPrecosP();
   rGastos(gasCtg);
+  sincronizarImagemCardapio();
+}
+
+function sincronizarImagemCardapio() {
+  dadosImg.trad = DC.trads.map(s => s.nome);
+  dadosImg.frutas = DC.frutas.map(s => s.nome);
+  dadosImg.gourmet = DC.gourmets.map(s => s.nome);
+  renderListsImg();
+  atualizarPreviewImg();
 }
 
 // ─ Sabores Cardápio
@@ -826,6 +1031,141 @@ function toast(msg, tipo) {
   requestAnimationFrame(()=>t.classList.add('show'));
   clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),3500);
 }
+
+// ─── IMAGEM CARDÁPIO ───────────────────────────────────────────────────────────
+let dadosImg = {
+  trad:   ['Amendoim','Beijinho','Brigadeiro','Café','Café com Leite','Dois Amores','Leite Ninho','Moranguinho (Nesquik)','Prestígio','Sensação'],
+  frutas: ['Amora','Banana','Cereja','Frutas Vermelhas','Limão','Maracujá','Uva'],
+  gourmet:['Choc. Gourmet','Churros','Confete','Ferrero Rocher','L. Ninho c/ Nutella','Negresco','Ovomaltine']
+};
+
+function renderListsImg() {
+  ['trad','frutas','gourmet'].forEach(cat => {
+    const el = document.getElementById('list-' + cat);
+    el.innerHTML = '';
+    dadosImg[cat].forEach((nome, idx) => {
+      const row = document.createElement('div');
+      row.className = 'sabor-item';
+      row.innerHTML = `
+        <input type="text" value="${nome}"
+          oninput="dadosImg['${cat}'][${idx}]=this.value"
+          onblur="atualizarPreviewImg()"
+          style="flex:1;background:var(--cr);border:2px solid var(--cd);border-radius:6px;color:var(--bd);font-family:'DM Sans',sans-serif;font-size:0.82rem;padding:0.35rem 0.6rem;">
+        <button class="btn-remover" onclick="removerSaborImg('${cat}',${idx})" style="background:none;border:1px solid var(--cd);color:var(--bw);border-radius:50%;width:22px;height:22px;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;">×</button>`;
+      el.appendChild(row);
+    });
+  });
+}
+
+function adicionarSaborImg(cat) {
+  dadosImg[cat].push('Novo sabor');
+  renderListsImg();
+  atualizarPreviewImg();
+  const inputs = document.querySelectorAll(`#list-${cat} input`);
+  const last = inputs[inputs.length-1];
+  if (last) { last.focus(); last.select(); }
+}
+
+function removerSaborImg(cat, idx) {
+  dadosImg[cat].splice(idx,1);
+  renderListsImg();
+  atualizarPreviewImg();
+}
+
+function atualizarPreviewImg() {
+  renderSaboresImg();
+  renderPrecosImg();
+  renderCombosImg();
+}
+
+function renderSaboresImg() {
+  const el = document.getElementById('preview-sabores');
+  const cats = [
+    { key:'trad',    cls:'background:var(--bd);color:var(--al);',    dotCls:'background:var(--bd);',    label:'TRADICIONAL' },
+    { key:'frutas',  cls:'background:var(--gn);color:white;',  dotCls:'background:var(--gn);',  label:'FRUTAS' },
+    { key:'gourmet', cls:'background:var(--am);color:var(--bd);', dotCls:'background:var(--am);', label:'GOURMET' },
+  ];
+  let html = '';
+  // headers
+  cats.forEach(c => {
+    html += `<div style="padding:0.7rem 1rem;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-align:center;${c.cls}">${c.label}</div>`;
+  });
+  // bodies
+  cats.forEach(c => {
+    const items = dadosImg[c.key].map(n =>
+      `<div style="display:flex;align-items:center;gap:0.55rem;padding:0.28rem 0;font-size:0.95rem;color:#3D2010;border-bottom:1px solid #f2ebe0;"><div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;${c.dotCls}"></div>${n}</div>`
+    ).join('');
+    html += `<div style="background:white;padding:0.9rem 1.2rem 1.1rem;border-right:1px solid var(--cd);">${items}</div>`;
+  });
+  el.innerHTML = html;
+}
+
+function renderPrecosImg() {
+  const linhas = [
+    { label:'Caixa 25 un.',   ids:['p-trad-25','p-frutas-25','p-gourmet-25'] },
+    { label:'Caixa 50 un.',   ids:['p-trad-50','p-frutas-50','p-gourmet-50'] },
+    { label:'Caixa 75 un.',   ids:['p-trad-75','p-frutas-75','p-gourmet-75'] },
+    { label:'Cento (100 un)', ids:['p-trad-100','p-frutas-100','p-gourmet-100'] },
+  ];
+  document.getElementById('preview-precos').innerHTML = linhas.map((l, i) => `
+    <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;padding:0.7rem 1.5rem;text-align:center;border-bottom:1px solid var(--cd);background:${i%2===0?'var(--cr)':'white'};">
+      <span style="font-size:0.95rem;color:var(--bw);font-weight:700;color:var(--bd);text-align:left;">${l.label}</span>
+      <span style="font-size:0.95rem;color:var(--bw);">${document.getElementById(l.ids[0]).value}</span>
+      <span style="font-size:0.95rem;color:var(--bw);">${document.getElementById(l.ids[1]).value}</span>
+      <span style="font-size:0.95rem;color:var(--bw);">${document.getElementById(l.ids[2]).value}</span>
+    </div>`).join('');
+}
+
+function renderCombosImg() {
+  document.getElementById('preview-combos').innerHTML = `
+    <div style="display:grid;grid-template-columns:auto 1fr 120px 120px;padding:0.85rem 1.5rem;align-items:center;text-align:center;border-bottom:1px solid var(--cd);background:white;">
+      <div style="font-size:0.95rem;font-weight:700;color:var(--bd);text-align:left;grid-column:1/3;">Caixa Mista 50 un <span style="font-size:0.78rem;color:var(--bw);display:block;font-weight:400;">25 Trad + 25 Gourmet</span></div>
+      <div style="font-size:1.05rem;font-weight:700;color:var(--bd);">${document.getElementById('combo-50-valor').value}</div>
+      <div style="font-size:0.95rem;font-weight:700;color:#C0392B;">${document.getElementById('combo-50-eco').value}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:auto 1fr 120px 120px;padding:0.85rem 1.5rem;align-items:center;text-align:center;background:var(--cr);">
+      <div style="font-size:0.95rem;font-weight:700;color:var(--bd);text-align:left;grid-column:1/3;">Cento Misto 100 un <span style="font-size:0.78rem;color:var(--bw);display:block;font-weight:400;">50 Trad + 50 Gourmet</span></div>
+      <div style="font-size:1.05rem;font-weight:700;color:var(--bd);">${document.getElementById('combo-100-valor').value}</div>
+      <div style="font-size:0.95rem;font-weight:700;color:#C0392B;">${document.getElementById('combo-100-eco').value}</div>
+    </div>`;
+}
+
+async function exportarImagemCardapio() {
+  const sb = document.getElementById('statusBarImg');
+  sb.textContent = '⏳ Gerando imagem...'; sb.style.color = '#888';
+  
+  if (typeof html2canvas === 'undefined') {
+    sb.textContent = '❌ Erro: biblioteca html2canvas não carregou'; 
+    sb.style.color = 'var(--rd)';
+    return;
+  }
+  
+  const logoImg = document.getElementById('logoImg');
+  const logoFb = document.getElementById('logoFb');
+  try {
+    logoImg.style.display = 'none';
+    logoFb.style.display = 'flex';
+    const canvas = await html2canvas(document.getElementById('cardapio'), {
+      scale: 2, useCORS: true, backgroundColor: '#FDF8F0', logging: false, allowTaint: true
+    });
+    const link = document.createElement('a');
+    link.download = 'cardapio-doces-flor.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    sb.textContent = '✅ Imagem exportada!'; sb.style.color = 'var(--gn)';
+  } catch(e) {
+    sb.textContent = '❌ Erro: ' + e.message; sb.style.color = 'var(--rd)';
+  } finally {
+    logoImg.style.display = 'block';
+    logoFb.style.display = 'none';
+  }
+}
+
+// Init imagem cardápio
+document.addEventListener('DOMContentLoaded', () => {
+  renderListsImg();
+  atualizarPreviewImg();
+});
 </script>
 </body>
 </html>
