@@ -558,7 +558,7 @@ const grpGrid  = { trads:'g-trad', frutas:'g-frutas', gourmets:'g-gourmet' };
 const grpBadge = { trads:'bdg-trad', frutas:'bdg-frutas', gourmets:'bdg-gourmet' };
 function rSabC(grp) {
   const g = document.getElementById(grpGrid[grp]); g.innerHTML = '';
-  const list = DC[grp] || [];
+  const list = (DC[grp] || []).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
   const bdgEl = document.getElementById(grpBadge[grp]);
   if (bdgEl) bdgEl.textContent = list.length;
   list.forEach((item, idx) => {
@@ -609,7 +609,8 @@ function updPCav(c,v){if(!DC.precos.avulsa)DC.precos.avulsa={};DC.precos.avulsa[
 const sabPGrid = { trads:'g-pt', gourmets:'g-pg', frutas:'g-pf' };
 function rSabP(grp) {
   const g = document.getElementById(sabPGrid[grp]); g.innerHTML = '';
-  (DP?.sabores?.[grp]||[]).forEach((nome, idx) => {
+  const sorted = [...(DP?.sabores?.[grp]||[])].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  sorted.forEach((nome, idx) => {
     const d = document.createElement('div'); d.className = 'si';
     d.innerHTML = `<span>${nome}</span><div class="si-ac">
       <button class="bi bi-e" onclick="abrirEditPedSab('${grp}',${idx})">✏️</button>
@@ -652,7 +653,8 @@ function updPP(c,q,v){if(!DP.precos[c])DP.precos[c]={};DP.precos[c][q]=parseFloa
 // ─ Gastos
 function rGastos(cat) {
   const g = document.getElementById('g-gas'); g.innerHTML = '';
-  (DP?.gastos?.[cat]||[]).forEach((item, idx) => {
+  const sorted = [...(DP?.gastos?.[cat]||[])].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  sorted.forEach((item, idx) => {
     const d = document.createElement('div'); d.className = 'si';
     d.innerHTML = `<span>${item}</span><div class="si-ac">
       <button class="bi bi-e" onclick="abrirEditGasto('${cat}',${idx})">✏️</button>
