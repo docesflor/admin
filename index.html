@@ -465,7 +465,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--bd);min-h
             <div style="background:var(--bd);padding:2.5rem 2rem 3.5rem;text-align:center;position:relative;">
               <div style="position:absolute;bottom:-1px;left:0;right:0;height:55px;background:var(--cr);clip-path:ellipse(55% 100% at 50% 100%);"></div>
               <div style="width:120px;height:120px;border-radius:50%;border:3px solid var(--am);padding:4px;background:var(--bd);margin:0 auto 1.1rem;overflow:hidden;position:relative;z-index:1;">
-                <img id="logoImg" src="https://raw.githubusercontent.com/docesflor/cardapio/main/icon-512.png" alt="Doces Flor" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" onerror="this.style.display='none';document.getElementById('logoFb').style.display='flex';">
+                <img id="logoImg" crossorigin="anonymous" src="https://raw.githubusercontent.com/docesflor/cardapio/main/icon-512.png" alt="Doces Flor" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" onerror="this.style.display='none';document.getElementById('logoFb').style.display='flex';">
                 <div id="logoFb" style="width:100%;height:100%;border-radius:50%;background:var(--am);display:none;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--bd);">DF</div>
               </div>
               <h1 style="font-family:'Cormorant Garamond',serif;font-size:3.6rem;font-weight:700;color:var(--cr);line-height:1;letter-spacing:0.04em;position:relative;z-index:1;">Doces <span style="color:var(--am);">Flor</span></h1>
@@ -1133,20 +1133,42 @@ function renderCombosImg() {
 async function exportarImagemCardapio() {
   const sb = document.getElementById('statusBarImg');
   sb.textContent = '⏳ Gerando imagem...'; sb.style.color = '#888';
-  
+
   if (typeof html2canvas === 'undefined') {
-    sb.textContent = '❌ Erro: biblioteca html2canvas não carregou'; 
+    sb.textContent = '❌ Erro: biblioteca html2canvas não carregou';
     sb.style.color = 'var(--rd)';
     return;
   }
-  
+
   const logoImg = document.getElementById('logoImg');
   const logoFb = document.getElementById('logoFb');
+
+  // Garante que a logo está realmente carregada (decoded) antes do html2canvas rodar.
+  // Se falhar, aí sim cai no fallback "DF".
+  async function garantirLogoCarregada() {
+    if (logoImg.style.display === 'none') return; // já está usando fallback
+    if (logoImg.complete && logoImg.naturalWidth > 0) {
+      try { await logoImg.decode(); } catch(e) {}
+      return;
+    }
+    await new Promise((resolve) => {
+      const onOk = () => { logoImg.removeEventListener('load', onOk); logoImg.removeEventListener('error', onErr); resolve(); };
+      const onErr = () => {
+        logoImg.removeEventListener('load', onOk); logoImg.removeEventListener('error', onErr);
+        logoImg.style.display = 'none';
+        logoFb.style.display = 'flex';
+        resolve();
+      };
+      logoImg.addEventListener('load', onOk);
+      logoImg.addEventListener('error', onErr);
+    });
+  }
+
   try {
-    logoImg.style.display = 'none';
-    logoFb.style.display = 'flex';
+    await garantirLogoCarregada();
+
     const canvas = await html2canvas(document.getElementById('cardapio'), {
-      scale: 2, useCORS: true, backgroundColor: '#FDF8F0', logging: false, allowTaint: true
+      scale: 2, useCORS: true, backgroundColor: '#FDF8F0', logging: false, allowTaint: false
     });
     const link = document.createElement('a');
     link.download = 'cardapio-doces-flor.png';
@@ -1155,9 +1177,6 @@ async function exportarImagemCardapio() {
     sb.textContent = '✅ Imagem exportada!'; sb.style.color = 'var(--gn)';
   } catch(e) {
     sb.textContent = '❌ Erro: ' + e.message; sb.style.color = 'var(--rd)';
-  } finally {
-    logoImg.style.display = 'block';
-    logoFb.style.display = 'none';
   }
 }
 
