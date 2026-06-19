@@ -3,856 +3,828 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin · Doces Flor</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Doces Flor · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --brown-dark:  #2B1206;
-    --brown-mid:   #5C2A0E;
-    --brown-warm:  #8B4513;
-    --amber:       #E8943A;
-    --amber-light: #F5B563;
-    --cream:       #FDF8F0;
-    --cream-dark:  #F0E6D3;
-    --green:       #4A7C59;
-    --red:         #e53935;
-    --white:       #FFFFFF;
-    --shadow:      rgba(43,18,6,0.13);
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+:root{--bd:#2B1206;--bm:#5C2A0E;--bw:#8B4513;--am:#E8943A;--al:#F5B563;--cr:#FDF8F0;--cd:#F0E6D3;--gn:#4A7C59;--rd:#e53935;--wh:#FFFFFF;--sh:rgba(43,18,6,.13);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--bd);min-height:100vh;overflow-x:hidden;}
 
-  #loginScreen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--brown-dark); }
-  .login-box { background:var(--white); border-radius:24px; padding:2.5rem 2rem; width:90%; max-width:360px; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.4); }
-  .login-box h1 { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--brown-dark); margin-bottom:0.2rem; }
-  .login-box h1 span { color:var(--amber); }
-  .login-box p { font-size:0.82rem; color:var(--brown-warm); margin-bottom:1.75rem; }
-  .login-field { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1rem; text-align:left; }
-  .login-field label { font-size:0.78rem; font-weight:600; color:var(--brown-warm); letter-spacing:0.04em; }
-  .login-field input { padding:0.65rem 0.9rem; border:2px solid var(--cream-dark); border-radius:10px; font-size:0.9rem; font-family:'DM Sans',sans-serif; color:var(--brown-dark); transition:border-color 0.2s; }
-  .login-field input:focus { outline:none; border-color:var(--amber); }
-  .btn-login { width:100%; padding:0.75rem; background:var(--brown-dark); color:var(--amber-light); border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.95rem; font-weight:600; cursor:pointer; margin-top:0.5rem; transition:background 0.2s; }
-  .btn-login:hover { background:var(--brown-mid); }
-  .login-erro { color:var(--red); font-size:0.8rem; margin-top:0.75rem; display:none; }
+/* LOGIN */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bd);position:fixed;inset:0;z-index:9999;}
+#loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,148,58,.18) 0%,transparent 70%),repeating-linear-gradient(-45deg,transparent 0,transparent 18px,rgba(255,255,255,.02) 18px,rgba(255,255,255,.02) 19px);pointer-events:none;}
+.lb{position:relative;z-index:1;background:var(--cr);border-radius:24px;padding:2.75rem 2rem 2rem;width:90%;max-width:380px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5);}
+.lb-logo{width:96px;height:96px;border-radius:50%;border:3px solid var(--am);padding:4px;background:var(--bd);margin:0 auto 1rem;box-shadow:0 0 0 1px rgba(232,148,58,.3),0 12px 30px rgba(0,0,0,.4);animation:fl 4s ease-in-out infinite;overflow:hidden;}
+.lb-logo img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+@keyframes fl{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.lb h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--bd);line-height:1;margin-bottom:.15rem;}
+.lb h1 span{color:var(--am);}
+.lb-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--bw);font-size:.9rem;letter-spacing:.1em;margin-bottom:1.75rem;}
+.lf{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.85rem;text-align:left;}
+.lf label{font-size:.73rem;font-weight:600;color:var(--bw);letter-spacing:.05em;text-transform:uppercase;}
+.lf input{padding:.65rem 1rem;border:2px solid var(--cd);border-radius:50px;font-size:.9rem;font-family:'DM Sans',sans-serif;color:var(--bd);background:var(--wh);transition:border-color .2s,box-shadow .2s;outline:none;}
+.lf input:focus{border-color:var(--am);box-shadow:0 0 0 3px rgba(232,148,58,.15);}
+.btn-login{width:100%;padding:.8rem;background:var(--bd);color:var(--al);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:background .2s,transform .15s;}
+.btn-login:hover{background:var(--bm);}
+.lb-erro{color:var(--rd);font-size:.8rem;margin-top:.55rem;min-height:1.1rem;font-weight:600;}
+.lb-dica{font-size:.7rem;color:var(--bw);margin-top:.85rem;line-height:1.5;font-style:italic;}
 
-  #adminScreen { display:none; }
-  .admin-header { background:var(--brown-dark); padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-  .admin-header-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:var(--cream); }
-  .admin-header-title span { color:var(--amber); }
-  .admin-header-actions { display:flex; gap:0.6rem; align-items:center; }
-  .btn-sair { background:none; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.6); font-size:0.78rem; font-family:'DM Sans',sans-serif; padding:0.35rem 0.9rem; border-radius:50px; cursor:pointer; transition:all 0.2s; }
-  .btn-sair:hover { border-color:var(--red); color:var(--red); }
-  .admin-body { max-width:960px; margin:0 auto; padding:2rem 1.25rem 5rem; }
+/* ADMIN */
+#adminScreen{display:none;}
 
-  .admin-tabs { display:flex; gap:6px; background:var(--cream-dark); border-radius:16px; padding:5px; margin-bottom:2rem; flex-wrap:wrap; justify-content:center; }
-  .admin-tab { flex:0 0 auto; padding:0.55rem 0.85rem; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; cursor:pointer; background:transparent; color:var(--brown-warm); transition:all 0.25s; white-space:nowrap; }
-  @media (max-width:600px) { .admin-tab { font-size:0.73rem; padding:0.5rem 0.65rem; } }
-  .admin-tab.active { background:var(--brown-dark); color:var(--amber-light); box-shadow:0 3px 10px var(--shadow); }
+/* HEADER */
+.adm-hdr{background:var(--bd);position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.35);}
+.adm-hdr::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(232,148,58,.12) 0%,transparent 70%),repeating-linear-gradient(-45deg,transparent 0,transparent 18px,rgba(255,255,255,.015) 18px,rgba(255,255,255,.015) 19px);pointer-events:none;}
+.adm-hdr-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.5rem;gap:1rem;flex-wrap:wrap;}
+.adm-brand{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--cr);}
+.adm-brand span{color:var(--am);}
+.adm-brand small{display:block;font-size:.68rem;font-style:italic;color:rgba(245,181,99,.55);font-family:'DM Sans',sans-serif;font-weight:400;letter-spacing:.08em;}
+.hdr-acts{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+.hdr-links{display:flex;gap:.4rem;}
+.hdr-links a{font-size:.72rem;color:rgba(255,255,255,.4);text-decoration:none;padding:.25rem .65rem;border:1px solid rgba(255,255,255,.1);border-radius:50px;transition:all .2s;}
+.hdr-links a:hover{color:var(--al);border-color:rgba(232,148,58,.4);}
+.btn-hdr{padding:.35rem .9rem;border:1px solid rgba(255,255,255,.18);border-radius:50px;background:none;color:rgba(255,255,255,.55);font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;transition:all .2s;}
+.btn-hdr:hover{border-color:var(--rd);color:var(--rd);}
+.btn-hdr-p{border-color:rgba(232,148,58,.4)!important;color:var(--al)!important;}
+.btn-hdr-p:hover{background:var(--am)!important;color:var(--wh)!important;border-color:var(--am)!important;}
 
-  .inner-tabs { display:flex; gap:5px; background:rgba(0,0,0,0.06); border-radius:12px; padding:4px; margin-bottom:1.25rem; flex-wrap:wrap; }
-  .inner-tab { flex:1; min-width:70px; padding:0.5rem 0.75rem; border:none; border-radius:9px; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; cursor:pointer; background:transparent; color:var(--brown-warm); transition:all 0.2s; white-space:nowrap; text-align:center; }
-  .inner-tab.active { background:var(--brown-dark); color:var(--amber-light); box-shadow:0 2px 8px var(--shadow); }
+/* TABS */
+.adm-tabs{background:rgba(0,0,0,.2);border-top:1px solid rgba(232,148,58,.12);padding:.6rem 1.5rem;display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:1;}
+.adm-tabs::-webkit-scrollbar{display:none;}
+.at{flex:0 0 auto;padding:.48rem .88rem;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.77rem;font-weight:500;cursor:pointer;background:transparent;color:rgba(245,181,99,.6);white-space:nowrap;transition:all .25s;}
+.at:hover{background:rgba(232,148,58,.15);color:var(--al);}
+.at.active{background:rgba(255,255,255,.1);color:var(--al);font-weight:600;}
 
-  .admin-section { display:none; }
-  .admin-section.visible { display:block; }
+/* BODY */
+.adm-body{max-width:960px;margin:0 auto;padding:2rem 1.25rem 6rem;}
+.adm-sec{display:none;}.adm-sec.vis{display:block;}
+.sec-tit{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;color:var(--bd);margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:1px solid var(--cd);display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.sec-badge{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:600;background:var(--am);color:var(--wh);padding:.18rem .7rem;border-radius:50px;letter-spacing:.04em;}
 
-  .section-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:var(--brown-dark); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--cream-dark); }
+/* INNER TABS */
+.it-wrap{display:flex;gap:4px;background:rgba(0,0,0,.06);border-radius:12px;padding:4px;margin-bottom:1.1rem;flex-wrap:wrap;}
+.it{flex:1;min-width:60px;padding:.44rem .6rem;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;cursor:pointer;background:transparent;color:var(--bw);text-align:center;white-space:nowrap;transition:all .2s;}
+.it.active{background:var(--bd);color:var(--al);box-shadow:0 2px 8px var(--sh);}
 
-  .sabores-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem; margin-bottom:1.5rem; }
-  .sabor-card { background:var(--white); border-radius:16px; box-shadow:0 4px 18px var(--shadow); overflow:hidden; }
-  .sabor-card-header { display:flex; align-items:center; justify-content:space-between; padding:0.85rem 1rem; background:var(--cream); border-bottom:1px solid var(--cream-dark); }
-  .sabor-card-nome { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700; color:var(--brown-dark); }
-  .sabor-card-acoes { display:flex; gap:0.4rem; }
-  .btn-icon { width:30px; height:30px; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition:all 0.15s; }
-  .btn-icon-edit { background:var(--cream-dark); color:var(--brown-warm); }
-  .btn-icon-edit:hover { background:var(--amber); color:white; }
-  .btn-icon-del { background:#fef2f2; color:#fca5a5; }
-  .btn-icon-del:hover { background:var(--red); color:white; }
+/* SABORES */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.1rem;margin-bottom:1.1rem;}
+.sc{background:var(--wh);border-radius:16px;box-shadow:0 4px 18px var(--sh);overflow:hidden;border:1px solid var(--cd);}
+.sc-hd{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1rem;background:var(--cr);border-bottom:1px solid var(--cd);}
+.sc-nm{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--bd);}
+.sc-ac{display:flex;gap:.35rem;}
+.bi{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:all .15s;}
+.bi-e{background:var(--cd);color:var(--bw);}.bi-e:hover{background:var(--am);color:var(--wh);}
+.bi-d{background:#fef2f2;color:#fca5a5;}.bi-d:hover{background:var(--rd);color:var(--wh);}
+.sc-ft{padding:.6rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;min-height:44px;}
+.fc{display:inline-flex;align-items:center;gap:.28rem;background:var(--cr);border:1px solid var(--cd);border-radius:7px;padding:.18rem .52rem;font-size:.7rem;color:var(--bw);max-width:150px;}
+.fc span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fcd{background:none;border:none;color:#ccc;cursor:pointer;font-size:.9rem;padding:0;flex-shrink:0;transition:color .15s;}.fcd:hover{color:var(--rd);}
+.btn-af{display:inline-flex;align-items:center;gap:.25rem;background:none;border:1.5px dashed var(--am);color:var(--am);border-radius:7px;padding:.18rem .62rem;font-size:.7rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all .15s;}
+.btn-af:hover{background:var(--am);color:var(--wh);}
 
-  .sabor-fotos { padding:0.75rem 1rem; display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; min-height:56px; }
-  .foto-chip { display:inline-flex; align-items:center; gap:0.35rem; background:var(--cream); border:1px solid var(--cream-dark); border-radius:8px; padding:0.25rem 0.6rem; font-size:0.75rem; color:var(--brown-warm); max-width:160px; }
-  .foto-chip span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .foto-chip-del { background:none; border:none; color:#ccc; cursor:pointer; font-size:0.9rem; line-height:1; padding:0; flex-shrink:0; transition:color 0.15s; }
-  .foto-chip-del:hover { color:var(--red); }
-  .btn-add-foto { display:inline-flex; align-items:center; gap:0.3rem; background:none; border:1.5px dashed var(--amber); color:var(--amber); border-radius:8px; padding:0.25rem 0.7rem; font-size:0.75rem; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; transition:all 0.15s; }
-  .btn-add-foto:hover { background:var(--amber); color:white; }
+/* SIMPLES */
+.sl{display:flex;flex-direction:column;gap:.44rem;}
+.si{display:flex;align-items:center;justify-content:space-between;background:var(--cr);border:1px solid var(--cd);border-radius:10px;padding:.54rem .84rem;font-size:.85rem;color:var(--bd);}
+.si-ac{display:flex;gap:.3rem;}
 
-  .item-simples-lista { display:flex; flex-direction:column; gap:0.5rem; }
-  .item-simples { display:flex; align-items:center; justify-content:space-between; background:var(--cream); border:1px solid var(--cream-dark); border-radius:10px; padding:0.6rem 0.9rem; font-size:0.88rem; color:var(--brown-dark); }
-  .item-simples-acoes { display:flex; gap:0.35rem; }
+/* PREÇOS */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.1rem;}
+.pc{background:var(--wh);border-radius:16px;padding:1.1rem;box-shadow:0 4px 18px var(--sh);border:1px solid var(--cd);}
+.pc h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--bd);margin-bottom:.85rem;padding-bottom:.44rem;border-bottom:1px solid var(--cd);}
+.pf{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;gap:.5rem;}
+.pf label{font-size:.77rem;color:var(--bw);white-space:nowrap;}
+.pf input{width:95px;padding:.34rem .54rem;border:2px solid var(--cd);border-radius:8px;font-size:.84rem;color:var(--bd);text-align:right;transition:border-color .2s;}
+.pf input:focus{outline:none;border-color:var(--am);}
 
-  .btn-novo { display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1.3rem; background:var(--brown-dark); color:var(--amber-light); border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; transition:background 0.2s; margin-bottom:1rem; }
-  .btn-novo:hover { background:var(--brown-mid); }
+/* BTN NOVO */
+.btn-n{display:inline-flex;align-items:center;gap:.4rem;padding:.54rem 1.2rem;background:var(--bd);color:var(--al);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;margin-bottom:.85rem;transition:background .2s;}
+.btn-n:hover{background:var(--bm);}
 
-  .precos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
-  .preco-card { background:var(--white); border-radius:16px; padding:1.25rem; box-shadow:0 4px 18px var(--shadow); }
-  .preco-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700; color:var(--brown-dark); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--cream-dark); }
-  .preco-field { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem; gap:0.75rem; }
-  .preco-field label { font-size:0.82rem; color:var(--brown-warm); font-weight:500; white-space:nowrap; }
-  .preco-field input { width:100px; padding:0.4rem 0.6rem; border:2px solid var(--cream-dark); border-radius:8px; font-size:0.88rem; font-family:'DM Sans',sans-serif; color:var(--brown-dark); text-align:right; transition:border-color 0.2s; }
-  .preco-field input:focus { outline:none; border-color:var(--amber); }
+/* PUBLISH BAR */
+.pub-bar{position:fixed;bottom:0;left:0;right:0;background:var(--wh);border-top:1px solid var(--cd);padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:300;box-shadow:0 -4px 20px var(--sh);transform:translateY(100%);transition:transform .3s ease;}
+.pub-bar.vis{transform:translateY(0);}
+.pub-msg{font-size:.82rem;color:var(--bw);}
+.pub-msg strong{color:var(--bd);}
+.pub-acts{display:flex;gap:.55rem;flex-shrink:0;}
+.btn-pub{display:inline-flex;align-items:center;gap:.35rem;padding:.6rem 1.3rem;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.87rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s,transform .15s;}
+.btn-pub-sv{background:var(--gn);color:var(--wh);}.btn-pub-sv:hover{background:#3a6347;transform:scale(1.02);}
+.btn-pub-sv:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.btn-pub-dc{background:var(--cd);color:var(--bw);}.btn-pub-dc:hover{background:#ddd0c0;}
 
-  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; display:none; align-items:center; justify-content:center; padding:1rem; }
-  .modal-overlay.active { display:flex; }
-  .modal-box { background:var(--white); border-radius:20px; padding:1.75rem; width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto; }
-  .modal-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--brown-dark); margin-bottom:1.25rem; }
-  .form-field { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1rem; }
-  .form-field label { font-size:0.78rem; font-weight:600; color:var(--brown-warm); letter-spacing:0.03em; }
-  .form-field input { padding:0.6rem 0.8rem; border:2px solid var(--cream-dark); border-radius:10px; font-size:0.9rem; font-family:'DM Sans',sans-serif; color:var(--brown-dark); transition:border-color 0.2s; }
-  .form-field input:focus { outline:none; border-color:var(--amber); }
-  .form-field small { font-size:0.72rem; color:var(--brown-warm); font-style:italic; }
-  .modal-actions { display:flex; gap:0.6rem; margin-top:1.25rem; }
-  .btn-confirmar { flex:1; padding:0.65rem; background:var(--brown-dark); color:var(--amber-light); border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.2s; }
-  .btn-confirmar:hover { background:var(--brown-mid); }
-  .btn-cancelar { flex:1; padding:0.65rem; background:none; border:2px solid var(--cream-dark); color:var(--brown-warm); border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer; transition:all 0.2s; }
-  .btn-cancelar:hover { border-color:var(--red); color:var(--red); }
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(43,18,6,.55);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(3px);}
+.mo.active{display:flex;}
+.mb{background:var(--wh);border-radius:20px;padding:1.75rem;width:90%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.35);max-height:90vh;overflow-y:auto;}
+.mb h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--bd);margin-bottom:1.1rem;}
+.ff{display:flex;flex-direction:column;gap:.34rem;margin-bottom:.9rem;}
+.ff label{font-size:.73rem;font-weight:600;color:var(--bw);letter-spacing:.04em;text-transform:uppercase;}
+.ff input{padding:.54rem .8rem;border:2px solid var(--cd);border-radius:10px;font-size:.9rem;font-family:'DM Sans',sans-serif;color:var(--bd);transition:border-color .2s;}
+.ff input:focus{outline:none;border-color:var(--am);}
+.ff small{font-size:.7rem;color:var(--bw);font-style:italic;}
+.m-acts{display:flex;gap:.5rem;margin-top:1.1rem;}
+.btn-cf{flex:1;padding:.6rem;background:var(--bd);color:var(--al);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .2s;}
+.btn-cf:hover{background:var(--bm);}
+.btn-cx{flex:1;padding:.6rem;background:none;border:2px solid var(--cd);color:var(--bw);border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.88rem;cursor:pointer;transition:all .2s;}
+.btn-cx:hover{border-color:var(--rd);color:var(--rd);}
 
-  /* Modal exportação */
-  .modal-export { max-width:660px; }
-  .export-instrucoes { background:var(--cream); border-radius:12px; padding:1rem 1.1rem; margin-bottom:1.25rem; }
-  .export-instrucoes h4 { font-size:0.82rem; font-weight:700; color:var(--brown-dark); margin-bottom:0.5rem; letter-spacing:0.03em; }
-  .export-instrucoes ol { padding-left:1.1rem; font-size:0.8rem; color:var(--brown-warm); line-height:1.9; }
-  .export-instrucoes code { background:var(--cream-dark); padding:0.1rem 0.4rem; border-radius:4px; font-size:0.78rem; color:var(--brown-dark); }
-  .export-arquivo { margin-bottom:1.25rem; }
-  .export-arquivo-label { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem; flex-wrap:wrap; gap:0.5rem; }
-  .export-arquivo-label span { font-size:0.85rem; font-weight:700; color:var(--brown-dark); }
-  .export-arquivo-acoes { display:flex; gap:0.5rem; align-items:center; }
-  .btn-copiar { display:inline-flex; align-items:center; gap:0.3rem; padding:0.35rem 1rem; background:var(--amber); color:white; border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer; transition:background 0.2s; white-space:nowrap; }
-  .btn-copiar:hover { background:var(--brown-warm); }
-  .btn-copiar.copiado { background:var(--green); }
-  .export-link { font-size:0.75rem; color:var(--amber); font-weight:600; text-decoration:none; white-space:nowrap; }
-  .export-link:hover { text-decoration:underline; }
-  .export-textarea { width:100%; height:150px; padding:0.75rem; border:2px solid var(--cream-dark); border-radius:10px; font-family:monospace; font-size:0.72rem; color:var(--brown-dark); background:var(--cream); resize:vertical; line-height:1.4; }
-  .export-textarea:focus { outline:none; border-color:var(--amber); }
+/* PUBLISH PAGE */
+.tk-card{background:var(--wh);border-radius:16px;padding:1.5rem;box-shadow:0 4px 18px var(--sh);border:1px solid var(--cd);max-width:560px;margin-bottom:1.25rem;}
+.tk-card h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--bd);margin-bottom:.5rem;}
+.tk-card p{font-size:.8rem;color:var(--bw);margin-bottom:.9rem;line-height:1.55;}
+.tk-row{display:flex;gap:.5rem;align-items:center;}
+.tk-in{flex:1;padding:.58rem .9rem;border:2px solid var(--cd);border-radius:50px;font-family:monospace;font-size:.8rem;color:var(--bd);transition:border-color .2s;}
+.tk-in:focus{outline:none;border-color:var(--am);}
+.btn-tk{padding:.58rem 1.2rem;background:var(--gn);color:var(--wh);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s;}
+.btn-tk:hover{background:#3a6347;}
+.tk-st{font-size:.74rem;margin-top:.45rem;color:var(--bw);}
+.tk-st.ok{color:var(--gn);font-weight:600;}.tk-st.err{color:var(--rd);font-weight:600;}
 
-  .salvar-bar { position:fixed; bottom:0; left:0; right:0; background:var(--white); border-top:1px solid var(--cream-dark); padding:0.9rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; z-index:200; box-shadow:0 -4px 20px var(--shadow); transform:translateY(100%); transition:transform 0.3s ease; }
-  .salvar-bar.visivel { transform:translateY(0); }
-  .salvar-bar-msg { font-size:0.85rem; color:var(--brown-warm); }
-  .salvar-bar-msg strong { color:var(--brown-dark); }
-  .btn-salvar { display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.5rem; background:var(--green); color:white; border:none; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.2s,transform 0.15s; white-space:nowrap; }
-  .btn-salvar:hover { background:#3a6347; transform:scale(1.03); }
+.pub-card{background:var(--wh);border-radius:16px;padding:1.25rem 1.5rem;box-shadow:0 4px 18px var(--sh);border:1px solid var(--cd);max-width:560px;}
+.pub-card h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--bd);margin-bottom:.85rem;}
+.pub-file{display:flex;align-items:center;justify-content:space-between;background:var(--cr);border-radius:10px;padding:.75rem 1rem;gap:.75rem;flex-wrap:wrap;margin-bottom:.5rem;}
+.pub-fn{font-size:.84rem;font-weight:600;color:var(--bd);}
+.pub-fs{font-size:.73rem;color:var(--bw);}
+.pub-fs.pend{color:var(--am);font-weight:600;}
+.pub-fs.ok{color:var(--gn);font-weight:600;}
+.pub-fs.err{color:var(--rd);font-weight:600;}
+.pub-fac{display:flex;gap:.4rem;flex-wrap:wrap;}
+.btn-gh{display:inline-flex;align-items:center;gap:.28rem;padding:.3rem .82rem;border:1.5px solid var(--cd);border-radius:50px;background:none;color:var(--bw);font-family:'DM Sans',sans-serif;font-size:.73rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;}
+.btn-gh:hover{border-color:var(--am);color:var(--am);}
+.btn-pf{display:inline-flex;align-items:center;gap:.28rem;padding:.3rem .82rem;background:var(--bd);color:var(--al);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-pf:hover{background:var(--bm);}
+.btn-pf:disabled{opacity:.5;cursor:not-allowed;}
+.prog{height:3px;background:var(--cd);border-radius:2px;margin-bottom:.85rem;overflow:hidden;}
+.prog-f{height:100%;background:var(--gn);width:0%;transition:width .4s;}
 
-  .config-card { background:var(--white); border-radius:16px; padding:1.5rem; box-shadow:0 4px 18px var(--shadow); max-width:560px; }
-  .config-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--brown-dark); margin-bottom:0.5rem; }
-  .config-card > p { font-size:0.82rem; color:var(--brown-warm); margin-bottom:1.25rem; line-height:1.5; }
-  .info-box { background:var(--cream); border:1px solid var(--cream-dark); border-radius:12px; padding:1rem 1.1rem; margin-top:1rem; }
-  .info-box h4 { font-size:0.82rem; font-weight:700; color:var(--brown-dark); margin-bottom:0.5rem; letter-spacing:0.03em; }
-  .info-box ol { padding-left:1.1rem; font-size:0.8rem; color:var(--brown-warm); line-height:1.9; }
-  .info-box li { margin-bottom:0.1rem; }
-  .info-box code { background:var(--cream-dark); padding:0.1rem 0.4rem; border-radius:4px; font-size:0.78rem; color:var(--brown-dark); }
-  .info-box-links { list-style:none !important; padding-left:0 !important; }
-  .info-box-links li { margin-bottom:0.5rem; }
+.ib{background:var(--cr);border:1px solid var(--cd);border-radius:12px;padding:.9rem 1rem;margin-top:.85rem;}
+.ib h4{font-size:.74rem;font-weight:700;color:var(--bd);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase;}
+.ib ol,.ib ul{padding-left:1rem;font-size:.77rem;color:var(--bw);line-height:1.9;}
+.ib code{background:var(--cd);padding:.1rem .34rem;border-radius:4px;font-size:.72rem;color:var(--bd);}
+.ib a{color:var(--am);font-weight:600;text-decoration:none;}.ib a:hover{text-decoration:underline;}
 
-  .toast { position:fixed; bottom:5rem; left:50%; transform:translateX(-50%) translateY(20px); background:var(--brown-dark); color:var(--amber-light); padding:0.65rem 1.4rem; border-radius:50px; font-size:0.88rem; font-weight:500; z-index:9999; opacity:0; transition:opacity 0.3s,transform 0.3s; pointer-events:none; white-space:nowrap; box-shadow:0 6px 20px rgba(0,0,0,0.3); }
-  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-  .toast.ok  { background:var(--green); color:white; }
-  .toast.err { background:var(--red); color:white; }
+/* LOADING */
+.ld-ov{position:fixed;inset:0;background:rgba(43,18,6,.7);z-index:8000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;backdrop-filter:blur(4px);}
+.ld-ov.active{display:flex;}
+.ld-spin{width:44px;height:44px;border:4px solid rgba(232,148,58,.3);border-top-color:var(--am);border-radius:50%;animation:sp .8s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.ld-msg{color:var(--al);font-size:.9rem;font-weight:500;}
 
-  @media (max-width:500px) {
-    .sabores-grid { grid-template-columns:1fr; }
-    .precos-grid  { grid-template-columns:1fr; }
-  }
+/* TOAST */
+.toast{position:fixed;bottom:5.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bd);color:var(--al);padding:.6rem 1.3rem;border-radius:50px;font-size:.84rem;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.ok{background:var(--gn);color:var(--wh);}
+.toast.err{background:var(--rd);color:var(--wh);}
+.toast.warn{background:var(--am);color:var(--wh);}
+
+@media(max-width:600px){
+  .sg{grid-template-columns:1fr;}
+  .pg{grid-template-columns:1fr;}
+  .pub-bar{flex-direction:column;align-items:stretch;}
+  .pub-acts{justify-content:flex-end;}
+}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="loginScreen">
-  <div class="login-box">
+  <div class="lb">
+    <div class="lb-logo">
+      <img src="https://raw.githubusercontent.com/docesflor/cardapio/main/icon-512.png" alt="Doces Flor"
+        onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;background:var(--am);font-family:Cormorant Garamond,serif;font-size:2.2rem;font-weight:700;color:var(--bd)\'>DF</div>'">
+    </div>
     <h1>Doces <span>Flor</span></h1>
-    <p>Painel de administração</p>
-    <div class="login-field">
-      <label>SENHA</label>
-      <input type="password" id="inputSenha" placeholder="••••••••" onkeydown="if(event.key==='Enter') fazerLogin()">
+    <p class="lb-sub">Painel de Administração</p>
+    <div class="lf">
+      <label>Senha de acesso</label>
+      <input type="password" id="pwIn" placeholder="••••••••">
     </div>
     <button class="btn-login" onclick="fazerLogin()">Entrar</button>
-    <p class="login-erro" id="loginErro">Senha incorreta.</p>
+    <p class="lb-erro" id="lbErro"></p>
+    <p class="lb-dica">Configure o token GitHub na aba ⚙️ Publicar após entrar.</p>
   </div>
+</div>
+
+<!-- LOADING -->
+<div class="ld-ov" id="ldOv">
+  <div class="ld-spin"></div>
+  <div class="ld-msg" id="ldMsg">Carregando...</div>
 </div>
 
 <!-- ADMIN -->
 <div id="adminScreen">
-  <div class="admin-header">
-    <div class="admin-header-title">Doces <span>Flor</span> · Admin</div>
-    <div class="admin-header-actions">
-      <a href="https://docesflor.github.io/cardapio/" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-decoration:none;">Cardápio ↗</a>
-      <a href="https://docesflor.github.io/pedidos/" target="_blank" style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-decoration:none;">Pedidos ↗</a>
-      <button class="btn-sair" onclick="sair()">Sair</button>
+  <header class="adm-hdr">
+    <div class="adm-hdr-inner">
+      <div class="adm-brand">
+        Doces <span>Flor</span>
+        <small>Painel de Administração</small>
+      </div>
+      <div class="hdr-acts">
+        <div class="hdr-links">
+          <a href="https://docesflor.github.io/cardapio/" target="_blank">Cardápio ↗</a>
+          <a href="https://docesflor.github.io/pedidos/" target="_blank">Pedidos ↗</a>
+        </div>
+        <button class="btn-hdr btn-hdr-p" onclick="irParaPublicar()">📤 Publicar</button>
+        <button class="btn-hdr" onclick="sair()">Sair</button>
+      </div>
     </div>
+    <div class="adm-tabs" id="mainTabs">
+      <button class="at active" data-tab="sabores-card">🍫 Sabores Cardápio</button>
+      <button class="at" data-tab="precos-card">💰 Preços Cardápio</button>
+      <button class="at" data-tab="sabores-ped">🔖 Sabores Pedido</button>
+      <button class="at" data-tab="precos-ped">💳 Preços Pedido</button>
+      <button class="at" data-tab="gastos">💸 Gastos</button>
+      <button class="at" data-tab="publicar">⚙️ Publicar</button>
+    </div>
+  </header>
+
+  <div class="adm-body">
+
+    <!-- SABORES CARDÁPIO -->
+<div class="adm-sec vis" id="tab-sabores-card">
+  <div class="sec-tit">Sabores — Cardápio</div>
+  <div class="it-wrap" id="itCard">
+    <button class="it active" onclick="swCard('trads',this)">🍫 Tradicionais</button>
+    <button class="it" onclick="swCard('frutas',this)">🍓 Frutas</button>
+    <button class="it" onclick="swCard('gourmets',this)">✨ Gourmet</button>
   </div>
-
-  <div class="admin-body">
-    <div class="admin-tabs" id="mainTabs">
-      <button class="admin-tab active" data-tab="cardapio-trad">Tradicionais</button>
-      <button class="admin-tab" data-tab="cardapio-frutas">Frutas</button>
-      <button class="admin-tab" data-tab="cardapio-gourmet">Gourmet</button>
-      <button class="admin-tab" data-tab="cardapio-precos">Preços Cardápio</button>
-      <button class="admin-tab" data-tab="pedidos-sabores">Sabores Pedido</button>
-      <button class="admin-tab" data-tab="pedidos-precos">Preços Pedido</button>
-      <button class="admin-tab" data-tab="pedidos-gastos">Gastos</button>
-      <button class="admin-tab" data-tab="config">Config</button>
-    </div>
-
-    <div class="admin-section visible" id="tab-cardapio-trad">
-      <div class="section-title">Tradicionais — Cardápio</div>
-      <button class="btn-novo" onclick="abrirModalNovo('cardapio','trads')">+ Novo sabor</button>
-      <div class="sabores-grid" id="grid-c-trads"></div>
-    </div>
-
-    <div class="admin-section" id="tab-cardapio-frutas">
-      <div class="section-title">Frutas — Cardápio</div>
-      <button class="btn-novo" onclick="abrirModalNovo('cardapio','frutas')">+ Novo sabor</button>
-      <div class="sabores-grid" id="grid-c-frutas"></div>
-    </div>
-
-    <div class="admin-section" id="tab-cardapio-gourmet">
-      <div class="section-title">Gourmet — Cardápio</div>
-      <button class="btn-novo" onclick="abrirModalNovo('cardapio','gourmets')">+ Novo sabor</button>
-      <div class="sabores-grid" id="grid-c-gourmets"></div>
-    </div>
-
-    <div class="admin-section" id="tab-cardapio-precos">
-      <div class="section-title">Preços — Cardápio</div>
-      <div class="precos-grid" id="grid-precos-cardapio"></div>
-    </div>
-
-    <div class="admin-section" id="tab-pedidos-sabores">
-      <div class="section-title">Sabores — Sistema de Pedidos</div>
-      <div class="inner-tabs" id="innerSaboresTabs">
-        <button class="inner-tab active" onclick="trocarAbaSabores('trads',this)">Tradicionais</button>
-        <button class="inner-tab" onclick="trocarAbaSabores('gourmets',this)">Gourmet</button>
-        <button class="inner-tab" onclick="trocarAbaSabores('frutas',this)">Frutas</button>
-      </div>
-      <div id="panel-p-trads">
-        <button class="btn-novo" onclick="abrirModalNovo('pedidos-sabores','trads')">+ Novo tradicional</button>
-        <div class="item-simples-lista" id="grid-p-trads"></div>
-      </div>
-      <div id="panel-p-gourmets" style="display:none;">
-        <button class="btn-novo" onclick="abrirModalNovo('pedidos-sabores','gourmets')">+ Novo gourmet</button>
-        <div class="item-simples-lista" id="grid-p-gourmets"></div>
-      </div>
-      <div id="panel-p-frutas" style="display:none;">
-        <button class="btn-novo" onclick="abrirModalNovo('pedidos-sabores','frutas')">+ Nova fruta</button>
-        <div class="item-simples-lista" id="grid-p-frutas"></div>
-      </div>
-    </div>
-
-    <div class="admin-section" id="tab-pedidos-precos">
-      <div class="section-title">Preços — Sistema de Pedidos</div>
-      <div class="precos-grid" id="grid-precos-pedidos"></div>
-    </div>
-
-    <div class="admin-section" id="tab-pedidos-gastos">
-      <div class="section-title">Itens de Gastos</div>
-      <div class="inner-tabs" id="innerGastosTabs">
-        <button class="inner-tab active" onclick="trocarAbaGastos('Ingredientes',this)">🧴 Ingredientes</button>
-        <button class="inner-tab" onclick="trocarAbaGastos('Embalagens',this)">📦 Embalagens</button>
-        <button class="inner-tab" onclick="trocarAbaGastos('Gás/Energia',this)">🔥 Gás/Energia</button>
-        <button class="inner-tab" onclick="trocarAbaGastos('Entrega',this)">🚗 Entrega</button>
-        <button class="inner-tab" onclick="trocarAbaGastos('Outros',this)">📋 Outros</button>
-      </div>
-      <div>
-        <button class="btn-novo" id="btnNovoGasto" onclick="abrirModalNovoGasto()">+ Novo item</button>
-        <div class="item-simples-lista" id="grid-gastos"></div>
-      </div>
-    </div>
-
-    <div class="admin-section" id="tab-config">
-      <div class="config-card">
-        <h3>Como publicar alterações</h3>
-        <p>Após editar, clique em <strong>"Gerar JSONs"</strong> na barra inferior. Copie cada arquivo e cole diretamente no GitHub.</p>
-        <div class="info-box">
-          <h4>PASSO A PASSO</h4>
-          <ol>
-            <li>Faça as alterações nas abas acima</li>
-            <li>Clique em <strong>Gerar JSONs</strong> na barra inferior</li>
-            <li>Clique em <strong>Copiar</strong> ao lado do arquivo alterado</li>
-            <li>Clique em <strong>Abrir no GitHub ↗</strong></li>
-            <li>Clique no ícone ✏️ (Edit this file)</li>
-            <li>Selecione tudo <code>Ctrl+A</code> e cole o conteúdo copiado</li>
-            <li>Clique em <strong>Commit changes</strong> e confirme</li>
-            <li>Repita para o outro arquivo se necessário</li>
-          </ol>
-        </div>
-        <div class="info-box" style="margin-top:0.75rem;">
-          <h4>LINKS DIRETOS</h4>
-          <ul class="info-box-links">
-            <li>📄 <a href="https://github.com/docesflor/admin/edit/main/dados-cardapio.json" target="_blank" style="color:var(--amber);font-weight:600;">Editar dados-cardapio.json ↗</a></li>
-            <li>📄 <a href="https://github.com/docesflor/admin/edit/main/dados-pedidos.json" target="_blank" style="color:var(--amber);font-weight:600;">Editar dados-pedidos.json ↗</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+  <div id="pn-card-trads">
+    <button class="btn-n" onclick="abrirNovoCat('trads')">+ Novo sabor</button>
+    <div class="sg" id="g-trad"></div>
+  </div>
+  <div id="pn-card-frutas" style="display:none">
+    <button class="btn-n" onclick="abrirNovoCat('frutas')">+ Novo sabor</button>
+    <div class="sg" id="g-frutas"></div>
+  </div>
+  <div id="pn-card-gourmets" style="display:none">
+    <button class="btn-n" onclick="abrirNovoCat('gourmets')">+ Novo sabor</button>
+    <div class="sg" id="g-gourmet"></div>
   </div>
 </div>
 
-<!-- SALVAR BAR -->
-<div class="salvar-bar" id="salvarBar">
-  <div class="salvar-bar-msg"><strong>Há alterações não salvas.</strong> Gere os JSONs e cole no GitHub.</div>
-  <button class="btn-salvar" id="btnSalvar" onclick="abrirModalExport()">📋 Gerar JSONs</button>
+    <!-- PREÇOS CARDÁPIO -->
+    <div class="adm-sec" id="tab-precos-card">
+      <div class="sec-tit">Preços — Cardápio</div>
+      <div class="pg" id="g-pc"></div>
+    </div>
+
+    <!-- SABORES PEDIDO -->
+    <div class="adm-sec" id="tab-sabores-ped">
+      <div class="sec-tit">Sabores — Sistema de Pedidos</div>
+      <div class="it-wrap" id="itSab">
+        <button class="it active" onclick="swSab('trads',this)">Tradicionais</button>
+        <button class="it" onclick="swSab('gourmets',this)">Gourmet</button>
+        <button class="it" onclick="swSab('frutas',this)">Frutas</button>
+      </div>
+      <div id="pn-trads"><button class="btn-n" onclick="abrirNovoPedSab('trads')">+ Novo tradicional</button><div class="sl" id="g-pt"></div></div>
+      <div id="pn-gourmets" style="display:none"><button class="btn-n" onclick="abrirNovoPedSab('gourmets')">+ Novo gourmet</button><div class="sl" id="g-pg"></div></div>
+      <div id="pn-frutas" style="display:none"><button class="btn-n" onclick="abrirNovoPedSab('frutas')">+ Nova fruta</button><div class="sl" id="g-pf"></div></div>
+    </div>
+
+    <!-- PREÇOS PEDIDO -->
+    <div class="adm-sec" id="tab-precos-ped">
+      <div class="sec-tit">Preços — Sistema de Pedidos</div>
+      <div class="pg" id="g-pp"></div>
+    </div>
+
+    <!-- GASTOS -->
+    <div class="adm-sec" id="tab-gastos">
+      <div class="sec-tit">Itens de Gastos</div>
+      <div class="it-wrap" id="itGas">
+        <button class="it active" onclick="swGas('Ingredientes',this)">🧴 Ingredientes</button>
+        <button class="it" onclick="swGas('Embalagens',this)">📦 Embalagens</button>
+        <button class="it" onclick="swGas('Gás/Energia',this)">🔥 Gás/Energia</button>
+        <button class="it" onclick="swGas('Entrega',this)">🚗 Entrega</button>
+        <button class="it" onclick="swGas('Outros',this)">📋 Outros</button>
+      </div>
+      <button class="btn-n" onclick="abrirNovoGasto()">+ Novo item</button>
+      <div class="sl" id="g-gas"></div>
+    </div>
+
+    <!-- PUBLICAR -->
+    <div class="adm-sec" id="tab-publicar">
+      <div class="sec-tit">Publicar alterações</div>
+
+      <div class="tk-card">
+        <h3>🔑 Token do GitHub</h3>
+        <p>Para publicar diretamente, você precisa de um <strong>Personal Access Token</strong> com permissão <code>Contents: Read &amp; Write</code> no repositório <code>docesflor/admin</code>. O token fica salvo apenas no seu navegador (localStorage).</p>
+        <div class="tk-row">
+          <input type="password" class="tk-in" id="ghTkIn" placeholder="ghp_xxxxxxxxxxxx">
+          <button class="btn-tk" onclick="salvarToken()">Salvar</button>
+        </div>
+        <p class="tk-st" id="tkSt"></p>
+        <div class="ib">
+          <h4>Como criar o token</h4>
+          <ol>
+            <li>Acesse <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a></li>
+            <li>Clique em <strong>Generate new token (fine-grained)</strong></li>
+            <li>Em <em>Repository access</em>: selecione <strong>Only select repositories</strong> → <code>docesflor/admin</code></li>
+            <li>Em <em>Permissions → Repository → Contents</em>: <strong>Read and write</strong></li>
+            <li>Clique <strong>Generate token</strong>, copie e cole acima</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <h3>📄 Arquivos</h3>
+        <div class="pub-file">
+          <div><div class="pub-fn">dados-cardapio.json</div><div class="pub-fs" id="stC">Sem alterações</div></div>
+          <div class="pub-fac">
+            <a class="btn-gh" href="https://github.com/docesflor/admin/blob/main/dados-cardapio.json" target="_blank">Ver no GitHub ↗</a>
+            <button class="btn-pf" id="btnPC" onclick="publicarArquivo('cardapio')" disabled>Publicar</button>
+          </div>
+        </div>
+        <div class="prog"><div class="prog-f" id="pfC"></div></div>
+
+        <div class="pub-file">
+          <div><div class="pub-fn">dados-pedidos.json</div><div class="pub-fs" id="stP">Sem alterações</div></div>
+          <div class="pub-fac">
+            <a class="btn-gh" href="https://github.com/docesflor/admin/blob/main/dados-pedidos.json" target="_blank">Ver no GitHub ↗</a>
+            <button class="btn-pf" id="btnPP" onclick="publicarArquivo('pedidos')" disabled>Publicar</button>
+          </div>
+        </div>
+        <div class="prog"><div class="prog-f" id="pfP"></div></div>
+      </div>
+    </div>
+
+  </div><!-- /adm-body -->
+</div><!-- /adminScreen -->
+
+<!-- PUBLISH BAR -->
+<div class="pub-bar" id="pubBar">
+  <div class="pub-msg"><strong>Alterações pendentes.</strong> Publique no GitHub para atualizar os sites.</div>
+  <div class="pub-acts">
+    <button class="btn-pub btn-pub-dc" onclick="descartarAlts()">Descartar</button>
+    <button class="btn-pub btn-pub-sv" id="btnPubTudo" onclick="publicarTudo()">📤 Publicar tudo</button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <!-- MODAL NOME -->
-<div class="modal-overlay" id="modalNome">
-  <div class="modal-box">
-    <h3 id="modalNomeTitulo">Novo item</h3>
-    <div class="form-field">
-      <label id="modalNomeLabel">NOME</label>
-      <input type="text" id="modalNomeInput" placeholder="">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancelar" onclick="fecharModal('modalNome')">Cancelar</button>
-      <button class="btn-confirmar" onclick="confirmarModalNome()">Confirmar</button>
+<div class="mo" id="mNome">
+  <div class="mb">
+    <h3 id="mNomeTit">Novo item</h3>
+    <div class="ff"><label id="mNomeLbl">Nome</label><input type="text" id="mNomeIn" placeholder=""></div>
+    <div class="m-acts">
+      <button class="btn-cx" onclick="closeM('mNome')">Cancelar</button>
+      <button class="btn-cf" onclick="confirmNome()">Confirmar</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL FOTO -->
-<div class="modal-overlay" id="modalFoto">
-  <div class="modal-box">
+<div class="mo" id="mFoto">
+  <div class="mb">
     <h3>Adicionar foto</h3>
-    <div class="form-field">
-      <label>NOME DO ARQUIVO</label>
-      <input type="text" id="modalFotoInput" placeholder="ex: amendoim-2.png">
-      <small>O arquivo deve estar na raiz do repositório docesflor/cardapio no GitHub.</small>
+    <div class="ff">
+      <label>Nome do arquivo</label>
+      <input type="text" id="mFotoIn" placeholder="ex: amendoim-2.png">
+      <small>O arquivo deve estar em <code>docesflor/cardapio</code> no GitHub.</small>
     </div>
-    <div class="modal-actions">
-      <button class="btn-cancelar" onclick="fecharModal('modalFoto')">Cancelar</button>
-      <button class="btn-confirmar" onclick="confirmarModalFoto()">Adicionar</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL EXPORT -->
-<div class="modal-overlay" id="modalExport">
-  <div class="modal-box modal-export">
-    <h3>📋 Publicar alterações</h3>
-
-    <div class="export-instrucoes">
-      <h4>COMO PUBLICAR</h4>
-      <ol>
-        <li>Clique em <strong>Copiar</strong> no arquivo alterado</li>
-        <li>Clique em <strong>Abrir no GitHub ↗</strong></li>
-        <li>Clique em ✏️, selecione tudo <code>Ctrl+A</code> e cole</li>
-        <li>Clique em <strong>Commit changes</strong></li>
-      </ol>
-    </div>
-
-    <div class="export-arquivo" id="exportCardapioWrap">
-      <div class="export-arquivo-label">
-        <span>📄 dados-cardapio.json</span>
-        <div class="export-arquivo-acoes">
-          <a class="export-link" href="https://github.com/docesflor/admin/edit/main/dados-cardapio.json" target="_blank">Abrir no GitHub ↗</a>
-          <button class="btn-copiar" id="btnCopiarCardapio" onclick="copiarJSON('cardapio')">📋 Copiar</button>
-        </div>
-      </div>
-      <textarea class="export-textarea" id="exportCardapioText" readonly></textarea>
-    </div>
-
-    <div class="export-arquivo" id="exportPedidosWrap">
-      <div class="export-arquivo-label">
-        <span>📄 dados-pedidos.json</span>
-        <div class="export-arquivo-acoes">
-          <a class="export-link" href="https://github.com/docesflor/admin/edit/main/dados-pedidos.json" target="_blank">Abrir no GitHub ↗</a>
-          <button class="btn-copiar" id="btnCopiarPedidos" onclick="copiarJSON('pedidos')">📋 Copiar</button>
-        </div>
-      </div>
-      <textarea class="export-textarea" id="exportPedidosText" readonly></textarea>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-cancelar" onclick="fecharModal('modalExport')">Fechar</button>
+    <div class="m-acts">
+      <button class="btn-cx" onclick="closeM('mFoto')">Cancelar</button>
+      <button class="btn-cf" onclick="confirmFoto()">Adicionar</button>
     </div>
   </div>
 </div>
 
 <script>
-const SENHA = 'docesflor2025';
+// ─── CONSTANTES ──────────────────────────────────────────────────────────────
+const SENHA   = 'docesflor2025';
+const REPO    = 'docesflor/admin';
+const BRANCH  = 'main';
+const GH_API  = 'https://api.github.com/repos/' + REPO + '/contents/';
+const GH_RAW  = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH + '/';
 
-let dadosCardapio = null;
-let dadosPedidos  = null;
-let alteradoCardapio = false;
-let alteradoPedidos  = false;
-let modalCtx = {};
-let gatosCategoriaAtiva = 'Ingredientes';
+let shaC = null, shaP = null;  // SHAs dos arquivos no GitHub
+let DC   = null, DP  = null;  // dados em memória
+let altC = false, altP = false;
+let mCtx = {};
+let gasCtg = 'Ingredientes';
 
-// ── DADOS PADRÃO (fonte: sites existentes) ──────────────────────────────
-const DADOS_CARDAPIO_PADRAO = {
-  trads: [
-    { nome: 'Amendoim',              fotos: ['amendoim.png'] },
-    { nome: 'Beijinho',              fotos: ['beijinho.png'] },
-    { nome: 'Brigadeiro',            fotos: ['brigadeiro.png'] },
-    { nome: 'Café',                  fotos: ['cafe.png'] },
-    { nome: 'Dois Amores',           fotos: ['dois-amores.png'] },
-    { nome: 'Leite Ninho',           fotos: ['leite-ninho.png'] },
-    { nome: 'Moranguinho (Nesquik)', fotos: ['moranguinho.png'] },
-    { nome: 'Prestígio',             fotos: ['prestigio.png'] },
-    { nome: 'Sensação',              fotos: ['sensacao.png'] }
+// ─── FALLBACKS ────────────────────────────────────────────────────────────────
+const DC0 = {
+  trads:[
+    {nome:'Amendoim',fotos:['amendoim.png']},{nome:'Beijinho',fotos:['beijinho.png']},
+    {nome:'Brigadeiro',fotos:['brigadeiro.png']},{nome:'Café',fotos:['cafe.png']},
+    {nome:'Dois Amores',fotos:['dois-amores.png']},{nome:'Leite Ninho',fotos:['leite-ninho.png']},
+    {nome:'Moranguinho (Nesquik)',fotos:['moranguinho.png']},{nome:'Prestígio',fotos:['prestigio.png']},
+    {nome:'Sensação',fotos:['sensacao.png']}
   ],
-  frutas: [
-    { nome: 'Amora',            fotos: ['amora.png'] },
-    { nome: 'Banana',           fotos: ['banana.png'] },
-    { nome: 'Cereja',           fotos: ['cereja.png'] },
-    { nome: 'Frutas Vermelhas', fotos: ['frutas-vermelhas.png'] },
-    { nome: 'Limão',            fotos: ['limao.png'] },
-    { nome: 'Maracujá',         fotos: ['maracuja.png'] },
-    { nome: 'Uva',              fotos: ['uva.png'] }
+  frutas:[
+    {nome:'Amora',fotos:['amora.png']},{nome:'Banana',fotos:['banana.png']},
+    {nome:'Cereja',fotos:['cereja.png']},{nome:'Frutas Vermelhas',fotos:['frutas-vermelhas.png']},
+    {nome:'Limão',fotos:['limao.png']},{nome:'Maracujá',fotos:['maracuja.png']},{nome:'Uva',fotos:['uva.png']}
   ],
-  gourmets: [
-    { nome: 'Chocolate Gourmet',       fotos: ['chocolate-gourmet.png'] },
-    { nome: 'Confete',                 fotos: ['confete.png'] },
-    { nome: 'Churros',                 fotos: ['churros.png'] },
-    { nome: 'Ferrero Rocher',          fotos: ['ferrero.png'] },
-    { nome: 'Leite Ninho com Nutella', fotos: ['leite-ninho-nutella.png'] },
-    { nome: 'Negresco',                fotos: ['negresco.png'] },
-    { nome: 'Ovomaltine',              fotos: ['ovomaltine.png'] }
+  gourmets:[
+    {nome:'Chocolate Gourmet',fotos:['chocolate-gourmet.png']},{nome:'Confete',fotos:['confete.png']},
+    {nome:'Churros',fotos:['churros.png']},{nome:'Ferrero Rocher',fotos:['ferrero.png']},
+    {nome:'Leite Ninho com Nutella',fotos:['leite-ninho-nutella.png']},
+    {nome:'Negresco',fotos:['negresco.png']},{nome:'Ovomaltine',fotos:['ovomaltine.png']}
   ],
-  precos: {
-    trad:    { 25: 35, 50: 60, 75: 82.50, 100: 110 },
-    frutas:  { 25: 40, 50: 70, 75: 105,   100: 125 },
-    gourmet: { 25: 45, 50: 80, 75: 120,   100: 140 },
-    avulsa:  { trad: 1.50, frutas: 1.75, gourmet: 2.00 }
+  precos:{trad:{25:35,50:60,75:82.5,100:110},frutas:{25:40,50:70,75:105,100:125},gourmet:{25:45,50:80,75:120,100:140},avulsa:{trad:1.5,frutas:1.75,gourmet:2}}
+};
+const DP0 = {
+  sabores:{
+    trads:['Amendoim','Beijinho','Brigadeiro','Café','Dois Amores','Leite Ninho','Moranguinho (Nesquik)','Prestígio','Sensação'],
+    gourmets:['Chocolate Gourmet','Confete','Churros','Ferrero Rocher','Leite Ninho com Nutella','Negresco','Ovomaltine'],
+    frutas:['Amora','Banana','Cereja','Frutas Vermelhas','Limão','Maracujá','Uva']
+  },
+  precos:{
+    trad:{25:35,50:60,75:82.5,100:110,avulso:1.5},
+    frutas:{25:40,50:70,75:105,100:125,avulso:1.75},
+    gourmet:{25:45,50:80,75:120,100:140,avulso:2}
+  },
+  gastos:{
+    'Ingredientes':['Leite condensado','Creme de leite','Chocolate em pó','Chocolate granulado','Manteiga','Margarina','Leite Ninho','Açúcar refinado','Glucose de milho','Cobertura fracionada (chocolate)','Cobertura fracionada (branco)','Chantilly','Essência de baunilha','Corante alimentício','Coco ralado','Amendoim torrado','Doce de leite','Oreo triturado','Cacau em pó','Creme de avelã (Nutella)','Leite condensado diet'],
+    'Embalagens':['Forminha papel redonda','Forminha papel quadrada','Forminha papel coração','Forminha papel flor','Caixa para 6 brigadeiros','Caixa para 12 brigadeiros','Caixa para 20 brigadeiros','Sacola kraft pequena','Sacola kraft média','Etiqueta adesiva','Fita de cetim','Papel seda','Tag personalizada','Embalagem térmica','Papel filme / bobina'],
+    'Gás/Energia':['Gás de cozinha (GLP)','Conta de energia elétrica','Conta de água','Manutenção fogão'],
+    'Entrega':['Taxa de entrega (motoboy)','Combustível','Estacionamento','Pedágio','Aplicativo de entrega'],
+    'Outros':['Impostos','Taxas','Uniforme','Equipamentos','Material de limpeza','Divulgação / Marketing']
   }
 };
 
-const DADOS_PEDIDOS_PADRAO = {
-  sabores: {
-    trads: [
-      'Amendoim','Beijinho','Brigadeiro','Café','Dois Amores',
-      'Leite Ninho','Moranguinho (Nesquik)','Prestígio','Sensação'
-    ],
-    gourmets: [
-      'Chocolate Gourmet','Confete','Churros','Ferrero Rocher',
-      'Leite Ninho com Nutella','Negresco','Ovomaltine'
-    ],
-    frutas: [
-      'Amora','Banana','Cereja','Frutas Vermelhas','Limão','Maracujá','Uva'
-    ]
-  },
-  precos: {
-    trad:    { 25: 35, 50: 60, 75: 82.50, 100: 110, avulso: 1.50 },
-    frutas:  { 25: 40, 50: 70, 75: 105,   100: 125, avulso: 1.75 },
-    gourmet: { 25: 45, 50: 80, 75: 120,   100: 140, avulso: 2.00 }
-  },
-  gastos: {
-    'Ingredientes': [
-      'Leite condensado','Creme de leite','Chocolate em pó','Chocolate granulado',
-      'Manteiga','Margarina','Leite Ninho','Açúcar refinado','Glucose de milho',
-      'Cobertura fracionada (chocolate)','Cobertura fracionada (branco)','Chantilly',
-      'Essência de baunilha','Corante alimentício','Coco ralado','Amendoim torrado',
-      'Doce de leite','Oreo triturado','Cacau em pó','Creme de avelã (Nutella)',
-      'Leite condensado diet'
-    ],
-    'Embalagens': [
-      'Forminha papel redonda','Forminha papel quadrada','Forminha papel coração',
-      'Forminha papel flor','Caixa para 6 brigadeiros','Caixa para 12 brigadeiros',
-      'Caixa para 20 brigadeiros','Sacola kraft pequena','Sacola kraft média',
-      'Etiqueta adesiva','Fita de cetim','Papel seda','Tag personalizada',
-      'Embalagem térmica','Papel filme / bobina'
-    ],
-    'Gás/Energia': [
-      'Gás de cozinha (GLP)','Conta de energia elétrica','Conta de água','Manutenção fogão'
-    ],
-    'Entrega': [
-      'Taxa de entrega (motoboy)','Combustível','Estacionamento','Pedágio','Aplicativo de entrega'
-    ],
-    'Outros': [
-      'Impostos','Taxas','Uniforme','Equipamentos','Material de limpeza','Divulgação / Marketing'
-    ]
-  }
-};
-
-// ── LOGIN ────────────────────────────────────────────────────────────────
+// ─── LOGIN ─────────────────────────────────────────────────────────────────────
 function fazerLogin() {
-  if (document.getElementById('inputSenha').value === SENHA) {
+  if (document.getElementById('pwIn').value === SENHA) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminScreen').style.display = 'block';
     iniciar();
   } else {
-    document.getElementById('loginErro').style.display = 'block';
+    document.getElementById('lbErro').textContent = 'Senha incorreta.';
+    document.getElementById('pwIn').value = '';
+    document.getElementById('pwIn').focus();
   }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('pwIn').addEventListener('keydown', e => { if (e.key === 'Enter') fazerLogin(); });
+});
+
 function sair() {
-  if ((alteradoCardapio || alteradoPedidos) && !confirm('Há alterações não salvas. Deseja sair mesmo assim?')) return;
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('adminScreen').style.display = 'none';
-  document.getElementById('inputSenha').value = '';
+  if ((altC || altP) && !confirm('Há alterações não publicadas. Sair mesmo assim?')) return;
+  location.reload();
 }
 
-// ── INICIAR ──────────────────────────────────────────────────────────────
-const REPO_RAW = 'https://raw.githubusercontent.com/docesflor/admin/main/';
+// ─── TOKEN ─────────────────────────────────────────────────────────────────────
+function getToken() { return localStorage.getItem('df_gh_token') || ''; }
+function salvarToken() {
+  const v = document.getElementById('ghTkIn').value.trim();
+  if (!v) { setTkSt('Digite um token válido.', 'err'); return; }
+  localStorage.setItem('df_gh_token', v);
+  setTkSt('✅ Token salvo com sucesso!', 'ok');
+  toast('🔑 Token GitHub salvo!', 'ok');
+}
+function setTkSt(msg, cls) {
+  const el = document.getElementById('tkSt');
+  el.textContent = msg; el.className = 'tk-st ' + cls;
+}
 
+// ─── LOADING ───────────────────────────────────────────────────────────────────
+function showLd(msg) { document.getElementById('ldMsg').textContent = msg || 'Carregando...'; document.getElementById('ldOv').classList.add('active'); }
+function hideLd() { document.getElementById('ldOv').classList.remove('active'); }
+
+// ─── FETCH ARQUIVO GH ──────────────────────────────────────────────────────────
+async function fetchGH(nome) {
+  const token = getToken();
+  const heads = token ? { Authorization: 'token ' + token } : {};
+  // Tenta via API para pegar o SHA
+  try {
+    const r = await fetch(GH_API + nome, { headers: heads });
+    if (r.ok) {
+      const meta = await r.json();
+      const conteudo = JSON.parse(decodeURIComponent(escape(atob(meta.content.replace(/\n/g, '')))));
+      return { conteudo, sha: meta.sha };
+    }
+  } catch(e) {}
+  // Fallback via raw
+  try {
+    const r2 = await fetch(GH_RAW + nome + '?t=' + Date.now());
+    if (r2.ok) return { conteudo: await r2.json(), sha: null };
+  } catch(e) {}
+  return null;
+}
+
+// ─── INICIAR ───────────────────────────────────────────────────────────────────
 async function iniciar() {
-  await Promise.all([carregarCardapio(), carregarPedidos()]);
+  showLd('Carregando dados do GitHub...');
+  const tk = getToken();
+  if (tk) { document.getElementById('ghTkIn').value = tk; setTkSt('Token carregado.', 'ok'); }
+
+  const [rC, rP] = await Promise.all([fetchGH('dados-cardapio.json'), fetchGH('dados-pedidos.json')]);
+
+  if (rC) {
+    DC = rC.conteudo; shaC = rC.sha;
+  } else {
+    // Fallback: tenta carregar do cardapio real
+    try {
+      const rb = await fetch('https://raw.githubusercontent.com/docesflor/cardapio/main/dados-cardapio.json?t=' + Date.now());
+      if (rb.ok) { DC = await rb.json(); toast('Dados carregados do cardápio', 'warn'); }
+      else throw new Error();
+    } catch(e) {
+      DC = JSON.parse(JSON.stringify(DC0));
+      toast('Usando dados padrão — cardápio', 'warn');
+    }
+  }
+
+  if (rP) {
+    DP = rP.conteudo; shaP = rP.sha;
+  } else {
+    // Fallback: tenta carregar do pedidos real
+    try {
+      const rb = await fetch('https://raw.githubusercontent.com/docesflor/pedidos/main/dados-pedidos.json?t=' + Date.now());
+      if (rb.ok) { DP = await rb.json(); toast('Dados carregados de pedidos', 'warn'); }
+      else throw new Error();
+    } catch(e) {
+      DP = JSON.parse(JSON.stringify(DP0));
+      toast('Usando dados padrão — pedidos', 'warn');
+    }
+  }
+
+  hideLd();
   renderTudo();
 }
 
-async function carregarCardapio() {
-  try {
-    const r = await fetch(REPO_RAW + 'dados-cardapio.json?t=' + Date.now());
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    dadosCardapio = await r.json();
-  } catch(e) {
-    dadosCardapio = JSON.parse(JSON.stringify(DADOS_CARDAPIO_PADRAO));
-    showToast('Usando dados padrão — cardápio', 'err');
-  }
-}
-
-async function carregarPedidos() {
-  try {
-    const r = await fetch(REPO_RAW + 'dados-pedidos.json?t=' + Date.now());
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    dadosPedidos = await r.json();
-  } catch(e) {
-    dadosPedidos = JSON.parse(JSON.stringify(DADOS_PEDIDOS_PADRAO));
-    showToast('Usando dados padrão — pedidos', 'err');
-  }
-}
-
-// ── RENDER ───────────────────────────────────────────────────────────────
+// ─── RENDER ────────────────────────────────────────────────────────────────────
 function renderTudo() {
-  renderSaboresCardapio('trads',    'grid-c-trads');
-  renderSaboresCardapio('frutas',   'grid-c-frutas');
-  renderSaboresCardapio('gourmets', 'grid-c-gourmets');
-  renderPrecosCardapio();
-  renderSaboresPedidos('trads',    'grid-p-trads');
-  renderSaboresPedidos('gourmets', 'grid-p-gourmets');
-  renderSaboresPedidos('frutas',   'grid-p-frutas');
-  renderPrecosPedidos();
-  renderGastos(gatosCategoriaAtiva);
+  rSabC('trads'); rSabC('frutas'); rSabC('gourmets');
+  rPrecosC();
+  rSabP('trads'); rSabP('gourmets'); rSabP('frutas');
+  rPrecosP();
+  rGastos(gasCtg);
 }
 
-function renderSaboresCardapio(chave, gridId) {
-  const grid = document.getElementById(gridId);
-  grid.innerHTML = '';
-  (dadosCardapio[chave] || []).forEach((item, idx) => {
-    const card = document.createElement('div');
-    card.className = 'sabor-card';
-    card.innerHTML = `
-      <div class="sabor-card-header">
-        <div class="sabor-card-nome">${item.nome}</div>
-        <div class="sabor-card-acoes">
-          <button class="btn-icon btn-icon-edit" title="Renomear" onclick="abrirModalEditar('cardapio','${chave}',${idx})">✏️</button>
-          <button class="btn-icon btn-icon-del"  title="Remover"  onclick="removerCardapio('${chave}',${idx})">🗑</button>
-        </div>
-      </div>
-      <div class="sabor-fotos">
-        ${(item.fotos||[]).map((f,fi) => `
-          <div class="foto-chip">
-            <span title="${f}">${f}</span>
-            <button class="foto-chip-del" onclick="removerFoto('${chave}',${idx},${fi})">×</button>
-          </div>`).join('')}
-        <button class="btn-add-foto" onclick="abrirModalFoto('${chave}',${idx})">+ foto</button>
-      </div>`;
-    grid.appendChild(card);
+// ─ Sabores Cardápio
+const grpGrid  = { trads:'g-trad', frutas:'g-frutas', gourmets:'g-gourmet' };
+const grpBadge = { trads:'bdg-trad', frutas:'bdg-frutas', gourmets:'bdg-gourmet' };
+function rSabC(grp) {
+  const g = document.getElementById(grpGrid[grp]); g.innerHTML = '';
+  const list = DC[grp] || [];
+  const bdgEl = document.getElementById(grpBadge[grp]);
+  if (bdgEl) bdgEl.textContent = list.length;
+  list.forEach((item, idx) => {
+    const card = document.createElement('div'); card.className = 'sc';
+    card.innerHTML = `<div class="sc-hd"><div class="sc-nm">${item.nome}</div><div class="sc-ac">
+      <button class="bi bi-e" onclick="abrirEditCat('${grp}',${idx})">✏️</button>
+      <button class="bi bi-d" onclick="remSabC('${grp}',${idx})">🗑</button></div></div>
+      <div class="sc-ft">${(item.fotos||[]).map((f,fi)=>
+        `<div class="fc"><span title="${f}">${f}</span><button class="fcd" onclick="remFoto('${grp}',${idx},${fi})">×</button></div>`
+      ).join('')}
+      <button class="btn-af" onclick="abrirModalFoto('${grp}',${idx})">+ foto</button></div>`;
+    g.appendChild(card);
   });
 }
+function remSabC(grp, idx) {
+  if (!confirm('Remover "' + DC[grp][idx].nome + '"?')) return;
+  DC[grp].splice(idx, 1); marcar('c'); rSabC(grp);
+}
+function abrirModalFoto(grp, idx) {
+  mCtx = { tipo:'foto', grp, idx }; document.getElementById('mFotoIn').value = ''; openM('mFoto');
+}
+function confirmFoto() {
+  const v = document.getElementById('mFotoIn').value.trim(); if (!v) return;
+  if (!DC[mCtx.grp][mCtx.idx].fotos) DC[mCtx.grp][mCtx.idx].fotos = [];
+  DC[mCtx.grp][mCtx.idx].fotos.push(v);
+  closeM('mFoto'); marcar('c'); rSabC(mCtx.grp);
+}
+function remFoto(grp, idx, fi) { DC[grp][idx].fotos.splice(fi,1); marcar('c'); rSabC(grp); }
 
-function removerCardapio(chave, idx) {
-  if (!confirm('Remover "' + dadosCardapio[chave][idx].nome + '"?')) return;
-  dadosCardapio[chave].splice(idx, 1);
-  marcarAlterado('cardapio');
-  renderSaboresCardapio(chave, gridIdCardapio(chave));
-}
-function gridIdCardapio(chave) {
-  return chave === 'trads' ? 'grid-c-trads' : chave === 'frutas' ? 'grid-c-frutas' : 'grid-c-gourmets';
-}
-
-function abrirModalFoto(chave, idx) {
-  modalCtx = { tipo:'foto', chave, idx };
-  document.getElementById('modalFotoInput').value = '';
-  document.getElementById('modalFoto').classList.add('active');
-  setTimeout(() => document.getElementById('modalFotoInput').focus(), 50);
-}
-function confirmarModalFoto() {
-  const nome = document.getElementById('modalFotoInput').value.trim();
-  if (!nome) return;
-  const { chave, idx } = modalCtx;
-  if (!dadosCardapio[chave][idx].fotos) dadosCardapio[chave][idx].fotos = [];
-  dadosCardapio[chave][idx].fotos.push(nome);
-  fecharModal('modalFoto');
-  marcarAlterado('cardapio');
-  renderSaboresCardapio(chave, gridIdCardapio(chave));
-}
-function removerFoto(chave, idx, fi) {
-  dadosCardapio[chave][idx].fotos.splice(fi, 1);
-  marcarAlterado('cardapio');
-  renderSaboresCardapio(chave, gridIdCardapio(chave));
-}
-
-function renderPrecosCardapio() {
-  const grid = document.getElementById('grid-precos-cardapio');
-  grid.innerHTML = '';
-  [
-    { chave:'trad',    label:'Tradicional' },
-    { chave:'frutas',  label:'Frutas' },
-    { chave:'gourmet', label:'Gourmet' },
-  ].forEach(cat => {
-    const tab = dadosCardapio.precos?.[cat.chave] || {};
-    const av  = dadosCardapio.precos?.avulsa?.[cat.chave] ?? '';
-    const card = document.createElement('div');
-    card.className = 'preco-card';
-    card.innerHTML = '<h3>' + cat.label + '</h3>' +
-      [25,50,75,100].map(q => `
-        <div class="preco-field">
-          <label>${q===100?'Cento (100 un)':'Caixa ' + q + ' un'}</label>
-          <input type="number" step="0.01" value="${tab[q]??''}" onchange="atualizarPrecoCardapio('${cat.chave}',${q},this.value)">
-        </div>`).join('') +
-      `<div class="preco-field">
-        <label>Preço avulso /un</label>
-        <input type="number" step="0.01" value="${av}" onchange="atualizarPrecoAvulsoCardapio('${cat.chave}',this.value)">
-      </div>`;
-    grid.appendChild(card);
+// ─ Preços Cardápio
+function rPrecosC() {
+  const g = document.getElementById('g-pc'); g.innerHTML = '';
+  [{k:'trad',l:'Tradicional'},{k:'frutas',l:'Frutas'},{k:'gourmet',l:'Gourmet'}].forEach(cat => {
+    const tab = DC.precos?.[cat.k]||{}, av = DC.precos?.avulsa?.[cat.k]??'';
+    const c = document.createElement('div'); c.className = 'pc';
+    c.innerHTML = `<h3>${cat.l}</h3>` +
+      [{q:25,l:'Caixa 25 un'},{q:50,l:'Caixa 50 un'},{q:75,l:'Caixa 75 un'},{q:100,l:'Cento (100 un)'}].map(f=>
+        `<div class="pf"><label>${f.l}</label><input type="number" step="0.01" value="${tab[f.q]??''}" onchange="updPC('${cat.k}',${f.q},this.value)"></div>`
+      ).join('') +
+      `<div class="pf"><label>Avulso / un</label><input type="number" step="0.01" value="${av}" onchange="updPCav('${cat.k}',this.value)"></div>`;
+    g.appendChild(c);
   });
 }
-function atualizarPrecoCardapio(cat, qtd, val) {
-  if (!dadosCardapio.precos[cat]) dadosCardapio.precos[cat] = {};
-  dadosCardapio.precos[cat][qtd] = parseFloat(val);
-  marcarAlterado('cardapio');
-}
-function atualizarPrecoAvulsoCardapio(cat, val) {
-  if (!dadosCardapio.precos.avulsa) dadosCardapio.precos.avulsa = {};
-  dadosCardapio.precos.avulsa[cat] = parseFloat(val);
-  marcarAlterado('cardapio');
-}
+function updPC(c,q,v){if(!DC.precos[c])DC.precos[c]={};DC.precos[c][q]=parseFloat(v);marcar('c');}
+function updPCav(c,v){if(!DC.precos.avulsa)DC.precos.avulsa={};DC.precos.avulsa[c]=parseFloat(v);marcar('c');}
 
-function renderSaboresPedidos(chave, gridId) {
-  const grid = document.getElementById(gridId);
-  grid.innerHTML = '';
-  const lista = dadosPedidos?.sabores?.[chave] || [];
-  lista.forEach((nome, idx) => {
-    const div = document.createElement('div');
-    div.className = 'item-simples';
-    div.innerHTML = '<span>' + nome + '</span>' +
-      '<div class="item-simples-acoes">' +
-        '<button class="btn-icon btn-icon-edit" onclick="abrirModalEditar(\'pedidos-sabores\',\'' + chave + '\',' + idx + ')">✏️</button>' +
-        '<button class="btn-icon btn-icon-del"  onclick="removerPedidoSabor(\'' + chave + '\',' + idx + ')">🗑</button>' +
-      '</div>';
-    grid.appendChild(div);
+// ─ Sabores Pedido
+const sabPGrid = { trads:'g-pt', gourmets:'g-pg', frutas:'g-pf' };
+function rSabP(grp) {
+  const g = document.getElementById(sabPGrid[grp]); g.innerHTML = '';
+  (DP?.sabores?.[grp]||[]).forEach((nome, idx) => {
+    const d = document.createElement('div'); d.className = 'si';
+    d.innerHTML = `<span>${nome}</span><div class="si-ac">
+      <button class="bi bi-e" onclick="abrirEditPedSab('${grp}',${idx})">✏️</button>
+      <button class="bi bi-d" onclick="remSabP('${grp}',${idx})">🗑</button></div>`;
+    g.appendChild(d);
   });
 }
-function removerPedidoSabor(chave, idx) {
-  if (!confirm('Remover "' + dadosPedidos.sabores[chave][idx] + '"?')) return;
-  dadosPedidos.sabores[chave].splice(idx, 1);
-  marcarAlterado('pedidos');
-  renderSaboresPedidos(chave, 'grid-p-' + chave);
+function remSabP(grp, idx) {
+  if (!confirm('Remover "'+DP.sabores[grp][idx]+'"?')) return;
+  DP.sabores[grp].splice(idx,1); marcar('p'); rSabP(grp);
 }
-function trocarAbaSabores(chave, btn) {
-  document.querySelectorAll('#innerSaboresTabs .inner-tab').forEach(b => b.classList.remove('active'));
+function swCard(grp, btn) {
+  document.querySelectorAll('#itCard .it').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  ['trads','gourmets','frutas'].forEach(c => {
-    document.getElementById('panel-p-' + c).style.display = c === chave ? 'block' : 'none';
+  ['trads','frutas','gourmets'].forEach(g => {
+    document.getElementById('pn-card-' + g).style.display = g === grp ? 'block' : 'none';
   });
 }
+function swSab(grp, btn) {
+  document.querySelectorAll('#itSab .it').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  ['trads','gourmets','frutas'].forEach(g=>{ document.getElementById('pn-'+g).style.display = g===grp?'block':'none'; });
+}
 
-function renderPrecosPedidos() {
-  const grid = document.getElementById('grid-precos-pedidos');
-  grid.innerHTML = '';
-  [
-    { chave:'trad',    label:'Tradicional' },
-    { chave:'frutas',  label:'Frutas' },
-    { chave:'gourmet', label:'Gourmet' },
-  ].forEach(cat => {
-    const tab = dadosPedidos?.precos?.[cat.chave] || {};
-    const card = document.createElement('div');
-    card.className = 'preco-card';
-    card.innerHTML = '<h3>' + cat.label + '</h3>' +
-      [25,50,75,100].map(q => `
-        <div class="preco-field">
-          <label>${q===100?'Cento (100 un)':'Caixa ' + q + ' un'}</label>
-          <input type="number" step="0.01" value="${tab[q]??''}" onchange="atualizarPrecoPedidos('${cat.chave}',${q},this.value)">
-        </div>`).join('') +
-      `<div class="preco-field">
-        <label>Preço avulso /un</label>
-        <input type="number" step="0.01" value="${tab.avulso??''}" onchange="atualizarPrecoPedidos('${cat.chave}','avulso',this.value)">
-      </div>`;
-    grid.appendChild(card);
+// ─ Preços Pedido
+function rPrecosP() {
+  const g = document.getElementById('g-pp'); g.innerHTML = '';
+  [{k:'trad',l:'Tradicional'},{k:'frutas',l:'Frutas'},{k:'gourmet',l:'Gourmet'}].forEach(cat => {
+    const tab = DP?.precos?.[cat.k]||{};
+    const c = document.createElement('div'); c.className = 'pc';
+    c.innerHTML = `<h3>${cat.l}</h3>` +
+      [{q:25,l:'Caixa 25 un'},{q:50,l:'Caixa 50 un'},{q:75,l:'Caixa 75 un'},{q:100,l:'Cento (100 un)'}].map(f=>
+        `<div class="pf"><label>${f.l}</label><input type="number" step="0.01" value="${tab[f.q]??''}" onchange="updPP('${cat.k}',${f.q},this.value)"></div>`
+      ).join('') +
+      `<div class="pf"><label>Avulso / un</label><input type="number" step="0.01" value="${tab.avulso??''}" onchange="updPP('${cat.k}','avulso',this.value)"></div>`;
+    g.appendChild(c);
   });
 }
-function atualizarPrecoPedidos(cat, qtd, val) {
-  if (!dadosPedidos.precos[cat]) dadosPedidos.precos[cat] = {};
-  dadosPedidos.precos[cat][qtd] = parseFloat(val);
-  marcarAlterado('pedidos');
-}
+function updPP(c,q,v){if(!DP.precos[c])DP.precos[c]={};DP.precos[c][q]=parseFloat(v);marcar('p');}
 
-function renderGastos(categoria) {
-  const grid = document.getElementById('grid-gastos');
-  grid.innerHTML = '';
-  const lista = dadosPedidos?.gastos?.[categoria] || [];
-  lista.forEach((item, idx) => {
-    const div = document.createElement('div');
-    div.className = 'item-simples';
-    div.innerHTML = '<span>' + item + '</span>' +
-      '<div class="item-simples-acoes">' +
-        '<button class="btn-icon btn-icon-edit" onclick="abrirModalEditarGasto(\'' + categoria + '\',' + idx + ')">✏️</button>' +
-        '<button class="btn-icon btn-icon-del"  onclick="removerGasto(\'' + categoria + '\',' + idx + ')">🗑</button>' +
-      '</div>';
-    grid.appendChild(div);
+// ─ Gastos
+function rGastos(cat) {
+  const g = document.getElementById('g-gas'); g.innerHTML = '';
+  (DP?.gastos?.[cat]||[]).forEach((item, idx) => {
+    const d = document.createElement('div'); d.className = 'si';
+    d.innerHTML = `<span>${item}</span><div class="si-ac">
+      <button class="bi bi-e" onclick="abrirEditGasto('${cat}',${idx})">✏️</button>
+      <button class="bi bi-d" onclick="remGasto('${cat}',${idx})">🗑</button></div>`;
+    g.appendChild(d);
   });
 }
-function trocarAbaGastos(categoria, btn) {
-  gatosCategoriaAtiva = categoria;
-  document.querySelectorAll('#innerGastosTabs .inner-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGastos(categoria);
+function swGas(cat, btn) {
+  gasCtg = cat;
+  document.querySelectorAll('#itGas .it').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  rGastos(cat);
 }
-function removerGasto(categoria, idx) {
-  if (!confirm('Remover "' + dadosPedidos.gastos[categoria][idx] + '"?')) return;
-  dadosPedidos.gastos[categoria].splice(idx, 1);
-  marcarAlterado('pedidos');
-  renderGastos(categoria);
-}
-function abrirModalEditarGasto(categoria, idx) {
-  modalCtx = { tipo:'gasto', acao:'editar', categoria, idx };
-  document.getElementById('modalNomeTitulo').textContent = 'Editar item';
-  document.getElementById('modalNomeLabel').textContent = 'DESCRIÇÃO';
-  document.getElementById('modalNomeInput').value = dadosPedidos.gastos[categoria][idx];
-  document.getElementById('modalNome').classList.add('active');
-  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
-}
-function abrirModalNovoGasto() {
-  modalCtx = { tipo:'gasto', acao:'novo', categoria: gatosCategoriaAtiva };
-  document.getElementById('modalNomeTitulo').textContent = 'Novo item — ' + gatosCategoriaAtiva;
-  document.getElementById('modalNomeLabel').textContent = 'DESCRIÇÃO';
-  document.getElementById('modalNomeInput').value = '';
-  document.getElementById('modalNome').classList.add('active');
-  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
+function remGasto(cat, idx) {
+  if (!confirm('Remover "'+DP.gastos[cat][idx]+'"?')) return;
+  DP.gastos[cat].splice(idx,1); marcar('p'); rGastos(cat);
 }
 
-function abrirModalNovo(tipo, chave) {
-  modalCtx = { tipo, chave, acao:'novo' };
-  document.getElementById('modalNomeTitulo').textContent = tipo === 'cardapio' ? 'Novo sabor — Cardápio' : 'Novo sabor — Pedidos';
-  document.getElementById('modalNomeLabel').textContent = 'NOME';
-  document.getElementById('modalNomeInput').value = '';
-  document.getElementById('modalNome').classList.add('active');
-  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
+// ─── MODAIS NOME ────────────────────────────────────────────────────────────────
+function abrirNovoCat(grp) { mCtx={tipo:'c-nw',grp}; setM('Novo sabor — Cardápio','Nome do sabor',''); openM('mNome'); }
+function abrirEditCat(grp,idx) { mCtx={tipo:'c-ed',grp,idx}; setM('Renomear sabor','Nome do sabor',DC[grp][idx].nome); openM('mNome'); }
+function abrirNovoPedSab(grp) { mCtx={tipo:'ps-nw',grp}; setM('Novo sabor — Pedidos','Nome do sabor',''); openM('mNome'); }
+function abrirEditPedSab(grp,idx) { mCtx={tipo:'ps-ed',grp,idx}; setM('Renomear sabor','Nome do sabor',DP.sabores[grp][idx]); openM('mNome'); }
+function abrirNovoGasto() { mCtx={tipo:'gs-nw',cat:gasCtg}; setM('Novo item — '+gasCtg,'Descrição',''); openM('mNome'); }
+function abrirEditGasto(cat,idx) { mCtx={tipo:'gs-ed',cat,idx}; setM('Editar item','Descrição',DP.gastos[cat][idx]); openM('mNome'); }
+
+function setM(tit, lbl, val) {
+  document.getElementById('mNomeTit').textContent = tit;
+  document.getElementById('mNomeLbl').textContent = lbl;
+  document.getElementById('mNomeIn').value = val;
 }
-function abrirModalEditar(tipo, chave, idx) {
-  modalCtx = { tipo, chave, idx, acao:'editar' };
-  document.getElementById('modalNomeTitulo').textContent = 'Renomear';
-  document.getElementById('modalNomeLabel').textContent = 'NOME';
-  const nome = tipo === 'cardapio' ? dadosCardapio[chave][idx].nome : dadosPedidos.sabores[chave][idx];
-  document.getElementById('modalNomeInput').value = nome;
-  document.getElementById('modalNome').classList.add('active');
-  setTimeout(() => document.getElementById('modalNomeInput').focus(), 50);
-}
-
-function confirmarModalNome() {
-  const valor = document.getElementById('modalNomeInput').value.trim();
-  if (!valor) return;
-  const { tipo, chave, idx, acao, categoria } = modalCtx;
-
-  if (tipo === 'cardapio') {
-    if (acao === 'novo') dadosCardapio[chave].push({ nome: valor, fotos: [] });
-    else dadosCardapio[chave][idx].nome = valor;
-    fecharModal('modalNome');
-    marcarAlterado('cardapio');
-    renderSaboresCardapio(chave, gridIdCardapio(chave));
-
-  } else if (tipo === 'pedidos-sabores') {
-    if (!dadosPedidos.sabores[chave]) dadosPedidos.sabores[chave] = [];
-    if (acao === 'novo') dadosPedidos.sabores[chave].push(valor);
-    else dadosPedidos.sabores[chave][idx] = valor;
-    fecharModal('modalNome');
-    marcarAlterado('pedidos');
-    renderSaboresPedidos(chave, 'grid-p-' + chave);
-
-  } else if (tipo === 'gasto') {
-    if (!dadosPedidos.gastos[categoria]) dadosPedidos.gastos[categoria] = [];
-    if (acao === 'novo') dadosPedidos.gastos[categoria].push(valor);
-    else dadosPedidos.gastos[categoria][idx] = valor;
-    fecharModal('modalNome');
-    marcarAlterado('pedidos');
-    renderGastos(categoria);
-  }
+function confirmNome() {
+  const v = document.getElementById('mNomeIn').value.trim(); if (!v) return;
+  const {tipo,grp,idx,cat} = mCtx;
+  if      (tipo==='c-nw')  { DC[grp].push({nome:v,fotos:[]}); closeM('mNome'); marcar('c'); rSabC(grp); }
+  else if (tipo==='c-ed')  { DC[grp][idx].nome=v;             closeM('mNome'); marcar('c'); rSabC(grp); }
+  else if (tipo==='ps-nw') { if(!DP.sabores[grp])DP.sabores[grp]=[]; DP.sabores[grp].push(v); closeM('mNome'); marcar('p'); rSabP(grp); }
+  else if (tipo==='ps-ed') { DP.sabores[grp][idx]=v;          closeM('mNome'); marcar('p'); rSabP(grp); }
+  else if (tipo==='gs-nw') { if(!DP.gastos[cat])DP.gastos[cat]=[]; DP.gastos[cat].push(v); closeM('mNome'); marcar('p'); rGastos(cat); }
+  else if (tipo==='gs-ed') { DP.gastos[cat][idx]=v;           closeM('mNome'); marcar('p'); rGastos(cat); }
 }
 
-// ── TABS ─────────────────────────────────────────────────────────────────
-document.querySelectorAll('#mainTabs .admin-tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#mainTabs .admin-tab').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('visible'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('visible');
-  });
-});
-
-function fecharModal(id) { document.getElementById(id).classList.remove('active'); }
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('active'); });
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(el => el.classList.remove('active'));
-  if (e.key === 'Enter') {
-    if (document.getElementById('modalNome').classList.contains('active')) confirmarModalNome();
-    if (document.getElementById('modalFoto').classList.contains('active')) confirmarModalFoto();
-  }
-});
-
-function marcarAlterado(qual) {
-  if (qual === 'cardapio') alteradoCardapio = true;
-  if (qual === 'pedidos')  alteradoPedidos  = true;
-  document.getElementById('salvarBar').classList.add('visivel');
-}
-
-// ── EXPORTAR JSONs ────────────────────────────────────────────────────────
-function abrirModalExport() {
-  // Sempre mostra os dois arquivos no modal
-  document.getElementById('exportCardapioText').value = JSON.stringify(dadosCardapio, null, 2);
-  document.getElementById('exportPedidosText').value  = JSON.stringify(dadosPedidos,  null, 2);
-
-  // Destaca visualmente os que foram alterados
-  const wrapC = document.getElementById('exportCardapioWrap');
-  const wrapP = document.getElementById('exportPedidosWrap');
-  wrapC.style.opacity = alteradoCardapio ? '1' : '0.55';
-  wrapP.style.opacity = alteradoPedidos  ? '1' : '0.55';
-
-  document.getElementById('modalExport').classList.add('active');
-}
-
-function copiarJSON(qual) {
-  const taId  = qual === 'cardapio' ? 'exportCardapioText' : 'exportPedidosText';
-  const btnId = qual === 'cardapio' ? 'btnCopiarCardapio'  : 'btnCopiarPedidos';
-  const texto = document.getElementById(taId).value;
-  const btn   = document.getElementById(btnId);
-
-  const marcarCopiado = () => {
-    btn.textContent = '✓ Copiado!';
-    btn.classList.add('copiado');
-    if (qual === 'cardapio') alteradoCardapio = false;
-    else alteradoPedidos = false;
-    if (!alteradoCardapio && !alteradoPedidos) {
-      document.getElementById('salvarBar').classList.remove('visivel');
-    }
-    showToast('✓ Copiado! Agora cole no GitHub.', 'ok');
-    setTimeout(() => { btn.textContent = '📋 Copiar'; btn.classList.remove('copiado'); }, 3000);
-  };
-
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(texto).then(marcarCopiado).catch(() => {
-      document.getElementById(taId).select();
-      document.execCommand('copy');
-      marcarCopiado();
+// ─── TABS ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#mainTabs .at').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#mainTabs .at').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.adm-sec').forEach(s=>s.classList.remove('vis'));
+      btn.classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('vis');
     });
-  } else {
-    const ta = document.getElementById(taId);
-    ta.select();
-    document.execCommand('copy');
-    marcarCopiado();
+  });
+});
+
+function irParaPublicar() {
+  document.querySelectorAll('#mainTabs .at').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.adm-sec').forEach(s=>s.classList.remove('vis'));
+  document.querySelector('[data-tab="publicar"]').classList.add('active');
+  document.getElementById('tab-publicar').classList.add('vis');
+}
+
+// ─── MODAL UTILS ───────────────────────────────────────────────────────────────
+function openM(id) {
+  document.getElementById(id).classList.add('active');
+  setTimeout(() => { const el=document.getElementById(id).querySelector('input'); if(el) el.focus(); }, 50);
+}
+function closeM(id) { document.getElementById(id).classList.remove('active'); }
+document.addEventListener('click', e => { if (e.target.classList.contains('mo')) e.target.classList.remove('active'); });
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') document.querySelectorAll('.mo.active').forEach(m=>m.classList.remove('active'));
+  if (e.key==='Enter') {
+    if (document.getElementById('mNome').classList.contains('active')) confirmNome();
+    if (document.getElementById('mFoto').classList.contains('active')) confirmFoto();
+  }
+});
+
+// ─── MARCAR ALTERADO ────────────────────────────────────────────────────────────
+function marcar(qual) {
+  if (qual==='c') { altC=true; stArq('C','pend'); document.getElementById('btnPC').disabled=false; }
+  if (qual==='p') { altP=true; stArq('P','pend'); document.getElementById('btnPP').disabled=false; }
+  document.getElementById('pubBar').classList.add('vis');
+}
+function stArq(q, st) {
+  const el = document.getElementById('st'+q);
+  const msgs = {pend:'🟡 Alterações pendentes',ok:'✅ Publicado!',err:'❌ Erro ao publicar',none:'Sem alterações'};
+  el.textContent = msgs[st]||st;
+  el.className = 'pub-fs' + (st==='none'?'':' '+st);
+}
+function descartarAlts() {
+  if (!confirm('Descartar todas as alterações não publicadas e recarregar?')) return;
+  altC=false; altP=false;
+  document.getElementById('pubBar').classList.remove('vis');
+  stArq('C','none'); stArq('P','none');
+  document.getElementById('btnPC').disabled=true;
+  document.getElementById('btnPP').disabled=true;
+  showLd('Recarregando...');
+  iniciar();
+}
+
+// ─── PUBLICAR VIA API GITHUB ────────────────────────────────────────────────────
+async function publicarArquivo(qual) {
+  const token = getToken();
+  if (!token) {
+    toast('Configure o token GitHub na aba ⚙️ Publicar.', 'err');
+    irParaPublicar(); return;
+  }
+
+  const arquivo = qual==='cardapio' ? 'dados-cardapio.json' : 'dados-pedidos.json';
+  const dados   = qual==='cardapio' ? DC : DP;
+  const sha     = qual==='cardapio' ? shaC : shaP;
+  const btnEl   = document.getElementById(qual==='cardapio'?'btnPC':'btnPP');
+  const fillEl  = document.getElementById(qual==='cardapio'?'pfC':'pfP');
+  const q       = qual==='cardapio' ? 'C' : 'P';
+
+  btnEl.textContent='Publicando...'; btnEl.disabled=true;
+  fillEl.style.width='30%';
+
+  const json64 = btoa(unescape(encodeURIComponent(JSON.stringify(dados, null, 2))));
+  const body   = { message:'Admin: atualiza '+arquivo, content:json64, branch:BRANCH };
+  if (sha) body.sha = sha;
+
+  try {
+    fillEl.style.width='60%';
+    const r = await fetch(GH_API+arquivo, {
+      method:'PUT',
+      headers:{ Authorization:'token '+token, 'Content-Type':'application/json', Accept:'application/vnd.github+json' },
+      body:JSON.stringify(body)
+    });
+    fillEl.style.width='100%';
+
+    if (r.ok) {
+      const res = await r.json();
+      if (qual==='cardapio') { shaC=res.content.sha; altC=false; }
+      else                   { shaP=res.content.sha; altP=false; }
+
+      stArq(q,'ok');
+      toast('✅ '+arquivo+' publicado com sucesso!','ok');
+      btnEl.textContent='✓ Publicado!';
+      setTimeout(()=>{ btnEl.textContent='Publicar'; btnEl.disabled=!(qual==='cardapio'?altC:altP); fillEl.style.width='0%'; },3000);
+      if (!altC && !altP) document.getElementById('pubBar').classList.remove('vis');
+    } else {
+      const err = await r.json().catch(()=>({}));
+      fillEl.style.width='0%';
+      const msg = r.status===401?'Token inválido ou sem permissão.':(err.message||'Erro HTTP '+r.status);
+      stArq(q,'err'); toast('❌ '+msg,'err');
+      btnEl.textContent='Tentar novamente'; btnEl.disabled=false;
+    }
+  } catch(e) {
+    fillEl.style.width='0%';
+    stArq(q,'err'); toast('❌ Erro de rede: '+e.message,'err');
+    btnEl.textContent='Tentar novamente'; btnEl.disabled=false;
   }
 }
 
-// ── TOAST ─────────────────────────────────────────────────────────────────
-let toastTimer;
-function showToast(msg, tipo) {
+async function publicarTudo() {
+  const btn = document.getElementById('btnPubTudo');
+  btn.textContent='Publicando...'; btn.disabled=true;
+  const proms = [];
+  if (altC) proms.push(publicarArquivo('cardapio'));
+  if (altP) proms.push(publicarArquivo('pedidos'));
+  await Promise.all(proms);
+  btn.textContent='📤 Publicar tudo'; btn.disabled=false;
+}
+
+// ─── TOAST ──────────────────────────────────────────────────────────────────────
+let toastT;
+function toast(msg, tipo) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast' + (tipo ? ' ' + tipo : '');
-  requestAnimationFrame(() => t.classList.add('show'));
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+  t.textContent=msg; t.className='toast'+(tipo?' '+tipo:'');
+  requestAnimationFrame(()=>t.classList.add('show'));
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
 </body>
