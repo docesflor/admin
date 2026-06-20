@@ -1170,16 +1170,13 @@ async function exportarImagemCardapio() {
     // Espera o navegador finalizar qualquer reflow/repaint pendente antes de capturar
     await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-    const larguraReal = alvo.scrollWidth; // largura real renderizada na tela (800px)
-
     const canvas = await html2canvas(alvo, {
       scale: 2,
       useCORS: true,
       backgroundColor: '#FDF8F0',
       logging: false,
       allowTaint: false,
-      width: larguraReal,
-      windowWidth: larguraReal,
+      windowWidth: document.documentElement.scrollWidth,
       foreignObjectRendering: false
     });
     const link = document.createElement('a');
