@@ -463,7 +463,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--bd);min-h
           <div id="cardapio" style="background:var(--cr);width:800px;margin:0 auto;font-family:'DM Sans',sans-serif;color:#3D2010;overflow:hidden;border-radius:10px;box-shadow:0 4px 18px var(--sh);">
             <!-- HEADER -->
             <div style="background:var(--bd);padding:2.5rem 2rem 3.5rem;text-align:center;position:relative;">
-              <div style="position:absolute;bottom:-1px;left:0;right:0;height:55px;background:var(--cr);clip-path:ellipse(55% 100% at 50% 100%);"></div>
+              <svg style="position:absolute;bottom:-1px;left:0;width:100%;height:56px;display:block;" viewBox="0 0 800 56" preserveAspectRatio="none">
+  <path d="M0,0 C 200,56 600,56 800,0 L800,56 L0,56 Z" fill="#FDF8F0"></path>
+</svg>
               <div style="width:170px;height:170px;border-radius:50%;border:4px solid var(--am);padding:5px;background:var(--bd);margin:0 auto 1.3rem;overflow:hidden;position:relative;z-index:1;">
                 <img id="logoImg" crossorigin="anonymous" src="https://raw.githubusercontent.com/docesflor/cardapio/main/icon-512.png" alt="Doces Flor" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" onerror="this.style.display='none';document.getElementById('logoFb').style.display='flex';">
                 <div id="logoFb" style="width:100%;height:100%;border-radius:50%;background:var(--am);display:none;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--bd);">DF</div>
@@ -1142,11 +1144,10 @@ async function exportarImagemCardapio() {
 
   const logoImg = document.getElementById('logoImg');
   const logoFb = document.getElementById('logoFb');
+  const alvo = document.getElementById('cardapio');
 
-  // Garante que a logo está realmente carregada (decoded) antes do html2canvas rodar.
-  // Se falhar, aí sim cai no fallback "DF".
   async function garantirLogoCarregada() {
-    if (logoImg.style.display === 'none') return; // já está usando fallback
+    if (logoImg.style.display === 'none') return;
     if (logoImg.complete && logoImg.naturalWidth > 0) {
       try { await logoImg.decode(); } catch(e) {}
       return;
@@ -1166,9 +1167,20 @@ async function exportarImagemCardapio() {
 
   try {
     await garantirLogoCarregada();
+    // Espera o navegador finalizar qualquer reflow/repaint pendente antes de capturar
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-    const canvas = await html2canvas(document.getElementById('cardapio'), {
-      scale: 2, useCORS: true, backgroundColor: '#FDF8F0', logging: false, allowTaint: false
+    const larguraReal = alvo.scrollWidth; // largura real renderizada na tela (800px)
+
+    const canvas = await html2canvas(alvo, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#FDF8F0',
+      logging: false,
+      allowTaint: false,
+      width: larguraReal,
+      windowWidth: larguraReal,
+      foreignObjectRendering: false
     });
     const link = document.createElement('a');
     link.download = 'cardapio-doces-flor.png';
